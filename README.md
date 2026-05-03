@@ -20,76 +20,75 @@ Before starting, make sure you have installed:
 
 Run the structure generator script to create all folders and files:
 
-```bash
-python create_project_structure.py
+    python create_project_structure.py
 
 Step 2: Navigate to Project Folder
 bash
 
-cd barangay_webapp
+    cd barangay_webapp
 
 Step 3: Create Virtual Environment
 
 Windows:
 bash
 
-python -m venv venv
-venv\Scripts\activate
+    python -m venv venv
+    venv\Scripts\activate
 
 Linux/Mac:
 bash
 
-python -m venv venv
-source venv/bin/activate
+    python -m venv venv
+    source venv/bin/activate
 
 Step 4: Install Dependencies
 bash
 
-pip install -r requirements.txt
+    pip install -r requirements.txt
 
 Step 5: Configure Environment Variables
 
 Open the .env file and update the values:
 env
 
-DB_USER=root
-DB_PASSWORD=your_database_password
-DB_HOST=localhost
-DB_PORT=3306
-DB_NAME=barangay_db
+    DB_USER=root
+    DB_PASSWORD=your_database_password
+    DB_HOST=localhost
+    DB_PORT=3306
+    DB_NAME=barangay_db
 
-SECRET_KEY=your-secure-secret-key-here
+    SECRET_KEY=your-secure-secret-key-here
 
-MAIL_SERVER=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USE_TLS=True
-MAIL_USERNAME=your-email@gmail.com
-MAIL_PASSWORD=your-app-password
+    MAIL_SERVER=smtp.gmail.com
+    MAIL_PORT=587
+    MAIL_USE_TLS=True
+    MAIL_USERNAME=your-email@gmail.com
+    MAIL_PASSWORD=your-app-password
 
-PAYMENT_API_KEY=your-payment-api-key
-PAYMENT_SECRET_KEY=your-payment-secret-key
+    PAYMENT_API_KEY=your-payment-api-key
+    PAYMENT_SECRET_KEY=your-payment-secret-key
 
 Step 6: Create Database
 
 Log in to MariaDB/MySQL and create the database:
 sql
 
-CREATE DATABASE IF NOT EXISTS barangay_db;
+    CREATE DATABASE IF NOT EXISTS barangay_db;
 
 Or via command line:
 bash
 
-mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS barangay_db;"
+    mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS barangay_db;"
 
 Step 7: Initialize Database Tables
 bash
 
-python config/database.py
+    python config/database.py
 
 Step 8: Run the Application
 bash
 
-python run.py
+    python run.py
 
 Step 9: Access the Application
 
