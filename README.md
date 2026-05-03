@@ -12,6 +12,8 @@ Before starting, make sure you have installed:
 - **MariaDB/MySQL** - [Download MariaDB](https://mariadb.org/download/) or [Download MySQL](https://dev.mysql.com/downloads/)
 - **Git** (optional) - [Download Git](https://git-scm.com/downloads/)
 - **Folder Structure** - [Download .py file setup](https://github.com/Angelo-T751/barangay_webapp/blob/main/create_project_structure.py)
+- **environment setup (Ubuntu)** - [Download .sh file setup](https://github.com/Angelo-T751/barangay_webapp/blob/main/setup.sh)
+- **environment setup (Windows)** - [Download .bat file setup](https://github.com/Angelo-T751/barangay_webapp/blob/main/setup.bat)
 
 ---
 
