@@ -11,6 +11,7 @@ Before starting, make sure you have installed:
 - **Python 3.8 or higher** - [Download Python](https://www.python.org/downloads/)
 - **MariaDB/MySQL** - [Download MariaDB](https://mariadb.org/download/) or [Download MySQL](https://dev.mysql.com/downloads/)
 - **Git** (optional) - [Download Git](https://git-scm.com/downloads/)
+- **Folder Structure** - [Download .py file setup] (https://github.com/Angelo-T751/barangay_webapp/blob/main/create_project_structure.py)
 
 ---
 
