@@ -155,6 +155,32 @@ Default Admin Account:
 
     Password: Admin@123
 
+START UP 
+
+LINUX - Open & Work on Project
+bash
+
+# 1. Navigate to project
+    cd ~/barangay_webapp
+
+# 2. Activate virtual environment
+    source venv/bin/activate
+
+# 3. Run the app
+    python3 run.py
+
+WINDOWS - Open & Work on Project
+cmd
+
+# 1. Navigate to project
+    cd C:\Users\YourName\barangay_webapp
+
+# 2. Activate virtual environment
+    venv\Scripts\activate
+
+# 3. Run the app
+    python3 run.py
+
 🛠️ Troubleshooting
 Issue	Solution
 pip not found	Install Python and check "Add Python to PATH" during installation
