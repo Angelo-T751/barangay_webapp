@@ -71,10 +71,10 @@ Linux Ubuntu
     mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS barangay_db;"
 
     # Step 6: Initialize database tables
-    python config/database.py
+    python3 config/database.py
 
     # Step 7: Run the application
-    python run.py
+    python3 run.py
 
 Windows
 
@@ -91,10 +91,10 @@ Windows
     mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS barangay_db;"
 
     # Step 5: Initialize database tables
-    python config/database.py
+    python3 config/database.py
     
     # Step 6: Run the application
-    python run.py
+    python3 run.py
 
     
     
