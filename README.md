@@ -35,13 +35,13 @@ Step 3: Create Virtual Environment
 Windows:
 bash
 
-    python -m venv venv
+    python3 -m venv venv
     venv\Scripts\activate
 
 Linux/Mac:
 bash
 
-    python -m venv venv
+    python3 -m venv venv
     source venv/bin/activate
 
 Step 4: Install Dependencies
