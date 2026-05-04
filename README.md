@@ -62,7 +62,7 @@ Linux Ubuntu
     ./setup.sh
 
     # Step 3: Activate the virtual environment (if not already activated)
-    source venv/bin/activate
+    source venv\bin\activate
 
     # Step 4: Verify Flask is installed
     pip list | grep Flask
