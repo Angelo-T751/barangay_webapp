@@ -26,12 +26,12 @@ Run the structure generator script to create all folders and files:
 
     python create_project_structure.py
 
-Step 2: Navigate to Project Folder
+### Step 2: Navigate to Project Folder
 bash
 
     cd barangay_webapp
 
-Step 3: Create Virtual Environment
+### Step 3: Create Virtual Environment
 
 Windows:
 bash
@@ -45,12 +45,12 @@ bash
     python3 -m venv venv
     source venv/bin/activate
 
-Step 4: Install Dependencies
+### Step 4: Install Dependencies
 bash
 
     pip install -r requirements.txt
 
-Use this to flush the cache if requirements.txt is not downloading
+### Use this to flush the cache if requirements.txt is not downloading
 
     pip cache purge
 
@@ -62,7 +62,7 @@ If imports are not recognized:
 Select the one with .venv/bin/python. This is the Virtual Environment you setup in Step 3
     
 
-Step 5: Configure Environment Variables
+### Step 5: Configure Environment Variables
 
 Open the .env file and update the values:
 env
@@ -84,7 +84,7 @@ env
     PAYMENT_API_KEY=your-payment-api-key
     PAYMENT_SECRET_KEY=your-payment-secret-key
 
-Step 6: Create Database
+### Step 6: Create Database
 
 Log in to MariaDB/MySQL and create the database:
 sql
@@ -96,17 +96,17 @@ bash
 
     mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS barangay_db;"
 
-Step 7: Initialize Database Tables
+### Step 7: Initialize Database Tables
 bash
 
     python config/database.py
 
-Step 8: Run the Application
+### Step 8: Run the Application
 bash
 
     python run.py
 
-Step 9: Access the Application
+### Step 9: Access the Application
 
     User Side: http://localhost:5000/user/dashboard
 
@@ -120,7 +120,7 @@ Default Admin Account:
 
 # START UP 
 
-:: LINUX - Open & Work on Project
+## LINUX - Open & Work on Project
 bash
 
 Step 1. Navigate to project
@@ -137,7 +137,7 @@ Step 3. Run the app
 
     python3 run.py
 
-:: WINDOWS - Open & Work on Project
+## WINDOWS - Open & Work on Project
 cmd
 
 Step 1. Navigate to project
