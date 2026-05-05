@@ -50,6 +50,10 @@ bash
 
     pip install -r requirements.txt
 
+Use this to flush the cache if requirements.txt is not downloading
+
+    pip cache purge
+    
 Step 4.5: Create Environment
 Install the correspondng setup file for your OS. open terminal in your project folder and run:
 
