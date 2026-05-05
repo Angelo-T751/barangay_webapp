@@ -54,54 +54,6 @@ Use this to flush the cache if requirements.txt is not downloading
 
     pip cache purge
     
-Step 4.5: Create Environment
-Install the correspondng setup file for your OS. open terminal in your project folder and run:
-
-Linux Ubuntu
-
-    # Step 1: Make the setup script executable
-    chmod +x setup.sh
-
-    # Step 2: Run the setup script
-    ./setup.sh
-
-    # Step 3: Activate the virtual environment (if not already activated)
-    source venv\bin\activate
-
-    # Step 4: Verify Flask is installed
-    pip list | grep Flask
-
-    # Step 5: Create the database
-    mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS barangay_db;"
-
-    # Step 6: Initialize database tables
-    python3 config/database.py
-
-    # Step 7: Run the application
-    python3 run.py
-
-Windows
-
-    # Step 1: Go to your project folder
-    cd /media/ace-ofdiamonds/Data/LinuxMint/PythonProjects/barangay_webapp
-
-    # Step 2: Activate virtual environment
-    source venv/bin/activate
-
-    # Step 3: Install all dependencies
-    pip install -r requirements.txt
-
-    # Step 4: Create the database (enter your MySQL password when prompted)
-    mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS barangay_db;"
-
-    # Step 5: Initialize database tables
-    python3 config/database.py
-    
-    # Step 6: Run the application
-    python3 run.py
-
-    
-    
 
 Step 5: Configure Environment Variables
 
