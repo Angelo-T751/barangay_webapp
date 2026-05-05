@@ -53,6 +53,13 @@ bash
 Use this to flush the cache if requirements.txt is not downloading
 
     pip cache purge
+
+If imports are not recognized: 
+    Ctrl + Shift + P to open the hotbar and type:
+
+        Python: Select Interpreter
+        
+Select the one with .venv/bin/python. This is the Virtual Environment you setup in Step 3
     
 
 Step 5: Configure Environment Variables
@@ -138,6 +145,7 @@ cmd
     python3 run.py
 
 🛠️ Troubleshooting
+
 Issue	Solution
 pip not found	Install Python and check "Add Python to PATH" during installation
 mysql not found	Add MySQL/MariaDB to system PATH
