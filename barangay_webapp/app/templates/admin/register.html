@@ -93,64 +93,6 @@
         </main>
     </div>
 
-    <script>
-        const form = document.getElementById('registerForm');
-        const regCard = document.getElementById('regCard');
-        const successCard = document.getElementById('successCard');
-
-        document.querySelectorAll('.toggle-pass').forEach(eye => {
-            eye.addEventListener('click', function() {
-                const targetId = this.getAttribute('data-target');
-                const input = document.getElementById(targetId);
-                const isPass = input.type === 'password';
-                input.type = isPass ? 'text' : 'password';
-                this.classList.toggle('fa-eye');
-                this.classList.toggle('fa-eye-slash');
-            });
-        });
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            let isValid = true;
-            
-            document.querySelectorAll('.error-note').forEach(el => el.style.display = 'none');
-            document.querySelectorAll('input').forEach(input => input.classList.remove('input-error'));
-            
-            const fields = ['firstName', 'lastName', 'email', 'password', 'confirmPass', 'adminCode'];
-            const vals = {};
-            fields.forEach(f => vals[f] = document.getElementById(f).value);
-
-            if(!vals.firstName) { triggerError('firstName'); isValid = false; }
-            if(!vals.lastName) { triggerError('lastName'); isValid = false; }
-            if(!vals.email.includes('@')) { triggerError('email'); isValid = false; }
-            if(vals.password.length < 6) { triggerError('password'); isValid = false; }
-            if(vals.password !== vals.confirmPass || !vals.confirmPass) { triggerError('confirmPass'); isValid = false; }
-            if(!vals.adminCode) { triggerError('adminCode'); isValid = false; }
-
-            if(isValid) {
-                regCard.style.display = 'none';
-                successCard.style.display = 'block';
-            } else {
-                regCard.classList.remove('shake');
-                void regCard.offsetWidth;
-                regCard.classList.add('shake');
-                document.getElementById('password').value = "";
-                document.getElementById('confirmPass').value = "";
-            }
-        });
-
-        function triggerError(id) {
-            document.getElementById(`err-${id}`).style.display = 'block';
-            document.getElementById(id).classList.add('input-error');
-        }
-
-        document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('input', function() {
-                this.classList.remove('input-error');
-                const errorSpan = document.getElementById(`err-${this.id}`);
-                if(errorSpan) errorSpan.style.display = 'none';
-            });
-        });
-    </script>
+    <script src="../../static/js/register.js"></script>
 </body>
 </html>

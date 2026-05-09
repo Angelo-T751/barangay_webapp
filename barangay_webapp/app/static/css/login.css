@@ -18,9 +18,8 @@ body {
     height: 100vh;
     display: flex;
     justify-content: center; 
-    align-items: flex-start; /* Changed from center to allow margin-top to work effectively */    
+    align-items: flex-start; 
     overflow: hidden;
-    /* Zoom locked at 0.8 */
     zoom: 0.8; 
 }
 
@@ -44,11 +43,9 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Pushed down further as requested */
     margin-top: 110px; 
 }
 
-/* Animations */
 .uniform-animation {
     opacity: 0;
     animation: uniformEntry 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -69,7 +66,6 @@ body {
     animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; 
 }
 
-/* Elements */
 .system-header { text-align: center; margin-bottom: 25px; }
 .brand-row { display: flex; align-items: center; justify-content: center; gap: 10px; }
 .logo-img { width: 44px; } 

@@ -67,62 +67,6 @@
         </div>
     </div>
 
-    <script>
-        const loginForm = document.getElementById('loginForm');
-        const emailInput = document.getElementById('email');
-        const passInput = document.getElementById('password');
-        const togglePass = document.getElementById('togglePass');
-        const errorMsg = document.getElementById('errorMessage');
-        const loginCard = document.getElementById('loginCard');
-
-        const ADMIN_EMAIL = "admin@ains.com";
-        const ADMIN_PASS = "admin123";
-
-        togglePass.addEventListener('click', () => {
-            const isPass = passInput.type === 'password';
-            passInput.type = isPass ? 'text' : 'password';
-            togglePass.className = isPass ? 'fa-regular fa-eye toggle-eye' : 'fa-regular fa-eye-slash toggle-eye';
-        });
-
-        // Function to reset icons visibility
-        function resetIcons() {
-            document.querySelectorAll('.field-icon').forEach(icon => {
-                icon.style.opacity = '1';
-            });
-        }
-
-        document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('input', function() {
-                const icon = this.previousElementSibling;
-                if(icon && icon.classList.contains('field-icon')) {
-                    icon.style.opacity = this.value.length > 0 ? '0' : '1';
-                }
-                errorMsg.style.display = 'none';
-                loginCard.classList.remove('shake');
-            });
-        });
-
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (emailInput.value === ADMIN_EMAIL && passInput.value === ADMIN_PASS) {
-                document.body.style.transition = "opacity 0.5s ease";
-                document.body.style.opacity = '0';
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 500);
-            } else {
-                // Trigger Shake and Error
-                loginCard.classList.remove('shake');
-                void loginCard.offsetWidth; 
-                loginCard.classList.add('shake');
-                errorMsg.style.display = 'block';
-
-                // CLEAR FIELDS DIRECTLY
-                emailInput.value = "";
-                passInput.value = "";
-                resetIcons(); // Bring back the icons since inputs are now empty
-            }
-        });
-    </script>
+    <script src="../../static/js/login.js"></script>
 </body>
 </html>
