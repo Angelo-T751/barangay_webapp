@@ -38,7 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Form Submission Logic
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        if (emailInput.value === ADMIN_EMAIL && passInput.value === ADMIN_PASS) {
+
+        // --- ADDED: Check localStorage for registered admins ---
+        let registeredAdmins = JSON.parse(localStorage.getItem('registeredAdmins')) || [];
+        const isRegistered = registeredAdmins.find(a => a.email === emailInput.value && a.password === passInput.value);
+
+        if ((emailInput.value === ADMIN_EMAIL && passInput.value === ADMIN_PASS) || isRegistered) {
             document.body.style.transition = "opacity 0.5s ease";
             document.body.style.opacity = '0';
             setTimeout(() => {

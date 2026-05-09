@@ -37,6 +37,7 @@ body {
     z-index: 0;
 }
 
+/* --- NAVIGATION BAR --- */
 .header-bar {
     position: fixed; 
     top: 0; 
@@ -90,6 +91,7 @@ body {
     color: var(--navy); 
 }
 
+/* --- MAIN CONTENT --- */
 .main-content { 
     padding: 30px 10%; 
     transition: filter 0.3s ease; 
@@ -101,51 +103,20 @@ body {
     filter: blur(15px); 
 }
 
-.admin-profile-tile { 
-    display: flex; 
-    align-items: center; 
-    gap: 20px; 
-    margin-bottom: 30px; 
-}
-
-.avatar-link { 
-    position: relative; 
-    text-decoration: none; 
-    transition: 0.3s ease; 
-}
-
-.avatar-circle { 
-    width: 80px; 
-    height: 80px; 
-    background: var(--white); 
-    border-radius: 50%;
-    border: 4px solid var(--navy); 
-    overflow: hidden; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    box-shadow: 0 10px 20px rgba(15, 45, 87, 0.15);
-}
-
-.online-status { 
-    position: absolute; 
-    bottom: 5px; 
-    right: 5px; 
-    width: 18px; 
-    height: 18px; 
-    background: var(--approved); 
-    border: 3px solid var(--white); 
-    border-radius: 50%; 
+/* Standalone Welcome Headline (Profile Tile Removed) */
+.welcome-header {
+    margin-bottom: 30px;
 }
 
 .welcome-text { 
-    font-size: 3rem; 
+    font-size: 3.2rem; 
     font-weight: 800; 
     color: var(--navy); 
-    margin-bottom: 0 !important; 
     line-height: 1.1; 
+    margin-bottom: 0 !important;
 }
 
+/* --- RECENT APPLICANTS --- */
 .recent-card {
     background: rgba(255, 255, 255, 0.6) !important; 
     border: 1px solid rgba(15, 45, 87, 0.1) !important;
@@ -222,6 +193,7 @@ body {
     background: var(--pending); 
 }
 
+/* --- STATISTICS SECTION --- */
 .stats-outer-container {
     background: rgba(255, 255, 255, 0.4); 
     border-radius: 40px; 
@@ -317,6 +289,7 @@ body {
 .approved-box { background: var(--approved); }
 .rejected-box { background: var(--rejected); color: white; }
 
+/* --- MODAL SYSTEM --- */
 .modal-overlay { 
     position: fixed; 
     top: 0; 
@@ -390,6 +363,7 @@ body {
     color: var(--navy); 
 }
 
+/* Applicant File View Styles */
 .m-flex { 
     display: flex; 
     gap: 15px; 
@@ -433,6 +407,7 @@ body {
     color: var(--navy); 
 }
 
+/* Modal Status Action Row */
 .status-action-row { 
     display: flex; 
     justify-content: space-between; 
@@ -486,6 +461,7 @@ body {
     margin: 0 10px; 
 }
 
+/* Admin Note & Upload Certificate */
 .note-upload-container { 
     display: flex; 
     gap: 20px; 
@@ -550,7 +526,7 @@ body {
     transition: 0.2s; 
 }
 
-/* NEW Logout Custom Card Styles */
+/* --- LOGOUT CARD STYLES --- */
 .logout-card {
     width: 400px;
     padding: 30px;
@@ -586,6 +562,7 @@ body {
     box-shadow: 0 5px 15px rgba(15, 45, 87, 0.2);
 }
 
+/* --- ANIMATIONS --- */
 .fade-in { 
     animation: fadeIn 0.5s ease-in; 
 }

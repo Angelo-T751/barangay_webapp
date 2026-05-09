@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Applications - Barangay AINS</title>
+    <link rel="stylesheet" href="../../static/css/pending.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="fade-in">
+    <div class="stripe-bg"></div>
+
+    <header class="header-bar">
+        <div class="brand">
+            <img src="../../static/images/logo.png" alt="Logo" class="brand-logo">
+            <h2 class="brand-text">BARANGAY AINS</h2>
+        </div>
+        <nav class="nav-links">
+            <a href="../../templates/admin/dashboard.html" class="nav-btn">Dashboard</a>
+            <a href="../../templates/admin/pending.html" class="nav-btn active">Applications</a>
+            <a href="#" class="nav-btn" onclick="openLogoutModal()">Logout</a>
+        </nav>
+    </header>
+
+    <main class="main-content" id="contentBlur">
+        <div class="zoom-container">
+            <div class="controls-container">
+                <div class="search-glass-card">
+                    <input type="text" id="searchInput" placeholder="Search applicant name, ID, or date...">
+                    <button id="clearSearch" class="clear-btn">&times;</button>
+                    <button id="searchBtn" class="search-btn-animated">Search</button>
+                </div>
+                
+                <div class="filter-tabs">
+                    <a href="../../templates/admin/pending.html" class="filter-btn pending active">PENDING</a>
+                    <a href="../../templates/admin/approved.html" class="filter-btn approved">APPROVED</a>
+                    <a href="../../templates/admin/rejected.html" class="filter-btn rejected">REJECTED</a>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-header">
+                    <div>ID</div>
+                    <div>NAME</div>
+                    <div>TYPE</div>
+                    <div>PURPOSE</div>
+                    <div>DATE</div>
+                    <div style="text-align: right; padding-right: 35px;">ACTIONS</div>
+                </div>
+                <div id="applicantList">
+                    </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <div id="modalForm">
+                <h2 class="card-title" style="text-align: center; margin-bottom: 20px; font-weight: 800; color: var(--navy);">APPLICATION DETAILS</h2>
+                
+                <div class="m-grid">
+                    <div class="m-field"><label>ID</label><input type="text" id="m-id" readonly></div>
+                    <div class="m-field"><label>Name</label><input type="text" id="m-name" readonly></div>
+                    <div class="m-field"><label>Type</label><input type="text" id="m-type" readonly></div>
+                    <div class="m-field"><label>Date Filed</label><input type="text" value="05/10/26" readonly></div>
+                </div>
+
+                <div class="status-action-row">
+                    <div class="status-item">
+                        <span class="status-display pending" id="modal-status-text">Pending</span>
+                    </div>
+                    <div class="v-line"></div>
+                    <div class="status-item">
+                        <button class="action-btn approve" onclick="selectStatus('Approved')">Approve</button>
+                        <button class="action-btn reject" onclick="selectStatus('Rejected')">Reject</button>
+                    </div>
+                </div>
+
+                <div class="note-upload-container">
+                    <div class="m-field flex-grow">
+                        <label>Admin Remarks</label>
+                        <textarea id="adminNote" placeholder="Enter notes here..."></textarea>
+                    </div>
+                    <div class="upload-container" id="uploadBox">
+                        <label>Certificate</label>
+                        <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
+                            <div id="plusBtn">
+                                <i class="fa-solid fa-plus"></i>
+                                <p style="font-size: 10px; font-weight: 800; margin-top: 5px;">UPLOAD</p>
+                            </div>
+                            <div id="filePreview" style="display:none; text-align: center;">
+                                <i class="fa-solid fa-file-pdf" style="font-size: 20px; color: var(--navy);"></i>
+                                <p id="fileNameDisplay" style="font-size: 9px; margin-top: 5px;"></p>
+                            </div>
+                        </div>
+                        <input type="file" id="fileInput" hidden onchange="handleFileSelect()">
+                    </div>
+                </div>
+                
+                <p id="errorMessage" style="color:var(--rejected); text-align:center; display:none; font-size:11px; font-weight:800; margin-top:10px;">Please provide remarks and necessary files!</p>
+                <button class="save-btn" onclick="validateAndUpdate()">UPDATE APPLICATION</button>
+            </div>
+
+            <div id="modalSuccess" style="display:none; text-align:center; padding:40px 0;">
+                <i class="fa-solid fa-circle-check" style="font-size:60px; color:var(--approved);"></i>
+                <h2 style="margin-top:20px; color: var(--navy); font-weight: 800;">Update Successful!</h2>
+                <p style="color: #64748b; font-weight: 600; margin-bottom: 20px;">The record has been updated.</p>
+                <button class="save-btn" onclick="location.reload()">DONE</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="logoutModalOverlay">
+        <div class="modal-card logout-card">
+            <div style="text-align: center; padding: 20px 0;">
+                <div style="font-size: 40px; margin-bottom: 15px;">🚪</div>
+                <h2 style="font-weight: 800; color: var(--navy);">Confirm Logout</h2>
+                <p style="margin: 10px 0 25px; color: #64748B; font-size: 14px; font-weight: 600;">Are you sure you want to log out of the Admin Dashboard?</p>
+                <div style="display: flex; gap: 12px; justify-content: center;">
+                    <button class="logout-action-btn cancel" onclick="closeLogoutModal()">Cancel</button>
+                    <button class="logout-action-btn confirm" onclick="window.location.href='login.html'">Yes, Log Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../static/js/pending.js"></script>
+</body>
+</html>

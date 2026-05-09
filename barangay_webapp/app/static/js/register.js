@@ -49,6 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if(!vals.adminCode) { triggerError('adminCode'); isValid = false; }
 
         if(isValid) {
+            // --- ADDED: Save user data to localStorage ---
+            let registeredAdmins = JSON.parse(localStorage.getItem('registeredAdmins')) || [];
+            registeredAdmins.push({ email: vals.email, password: vals.password });
+            localStorage.setItem('registeredAdmins', JSON.stringify(registeredAdmins));
+
             // Success: Hide form and show success state
             regCard.style.display = 'none';
             successCard.style.display = 'block';

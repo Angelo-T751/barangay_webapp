@@ -1,9 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
     let selectedStatus = null;
     let currentAppId = null;
-    let pendingCount = 3, approvedCount = 0, rejectedCount = 0;
 
-    // --- Logout Modal Functions ---
+    // 1. LOAD SAVED DATA
+    let pendingCount = parseInt(localStorage.getItem('pCount')) || 3;
+    let approvedCount = parseInt(localStorage.getItem('aCount')) || 0;
+    let rejectedCount = parseInt(localStorage.getItem('rCount')) || 0;
+    
+    // --- ADDED: Load list of IDs that were already processed ---
+    let processedIds = JSON.parse(localStorage.getItem('processedIds')) || [];
+
+    // --- ADDED: Hide rows that were previously removed ---
+    processedIds.forEach(id => {
+        const savedRow = document.getElementById('row-' + id);
+        if (savedRow) savedRow.style.display = 'none';
+    });
+
     window.openLogoutModal = function(event) {
         event.preventDefault();
         document.getElementById('logoutModalOverlay').style.display = 'flex';
@@ -15,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('contentBlur').classList.remove('blurred');
     }
 
-    // --- Initialize Chart ---
     const ctx = document.getElementById('pieChart').getContext('2d');
     const pieChart = new Chart(ctx, {
         type: 'doughnut',
@@ -27,8 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }]
         },
         options: { 
-            responsive: true, 
-            maintainAspectRatio: false, 
+            responsive: true, maintainAspectRatio: false, 
             plugins: { legend: { display: false } } 
         }
     });
@@ -40,6 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('totalNum').innerText = pendingCount + approvedCount + rejectedCount;
         pieChart.data.datasets[0].data = [pendingCount, approvedCount, rejectedCount];
         pieChart.update();
+
+        localStorage.setItem('pCount', pendingCount);
+        localStorage.setItem('aCount', approvedCount);
+        localStorage.setItem('rCount', rejectedCount);
     }
 
     window.openModal = function(id, name, type) {
@@ -55,11 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('selectionMsg').innerText = "";
         document.getElementById('modal-status-text').innerText = "Pending";
         document.getElementById('modal-status-text').className = "status-display pending";
-        
         document.getElementById('fileInput').value = ""; 
         document.getElementById('filePreview').style.display = 'none';
         document.getElementById('plusBtn').style.display = 'block';
-        
         document.getElementById('uploadBox').style.display = 'none';
         document.getElementById('modalOverlay').style.display = 'flex';
         document.getElementById('contentBlur').classList.add('blurred');
@@ -97,7 +109,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (isValid) {
             const row = document.getElementById('row-' + currentAppId);
-            if (row) row.remove();
+            if (row) {
+                row.remove();
+                // --- ADDED: Save the ID to the processed list so it doesn't come back ---
+                processedIds.push(currentAppId);
+                localStorage.setItem('processedIds', JSON.stringify(processedIds));
+            }
+            
             pendingCount--;
             if (selectedStatus === 'Approved') approvedCount++;
             else if (selectedStatus === 'Rejected') rejectedCount++;
@@ -111,4 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => document.getElementById('modalCard').classList.remove('shake-error'), 400);
         }
     }
+
+    window.updateStatsUI();
 });
