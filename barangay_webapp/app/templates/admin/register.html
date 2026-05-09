@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay AINS - Admin Registration</title>
+    <link rel="stylesheet" href="../../static/css/register.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="bg-wrapper">
+        <img src="../../static/images/bg1.png" alt="Skyline" class="bg-silhouette">
+    </div>
+
+    <div class="viewport-wrapper uniform-animation" id="mainWrapper">
+        <header class="system-header">
+            <div class="brand-row">
+                <img src="../../static/images/logo.png" alt="Logo" class="logo-img">
+                <h1 class="brand-name">Barangay AINS</h1>
+            </div>
+            <p class="portal-tag">CREATE AN AUTHORIZED ADMINISTRATOR ACCOUNT</p>
+            <h2 class="page-title">ADMIN REGISTRATION</h2>
+        </header>
+
+        <main class="reg-card" id="regCard">
+            <h3 class="section-label">Personal Information</h3>
+            <form id="registerForm" novalidate>
+                
+                <div class="form-grid tier-3">
+                    <div class="input-field">
+                        <label>First Name*</label>
+                        <input type="text" id="firstName">
+                        <span class="error-note" id="err-firstName">*First name is required</span>
+                    </div>
+                    <div class="input-field">
+                        <label>M.I (Optional)</label>
+                        <input type="text" id="mi">
+                    </div>
+                    <div class="input-field">
+                        <label>Last Name*</label>
+                        <input type="text" id="lastName">
+                        <span class="error-note" id="err-lastName">*Last name is required</span>
+                    </div>
+                </div>
+
+                <div class="form-grid tier-3">
+                    <div class="input-field">
+                        <label>Email Address*</label>
+                        <input type="email" id="email">
+                        <span class="error-note" id="err-email">*Invalid email format</span>
+                    </div>
+                    <div class="input-field">
+                        <label>Password*</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="password">
+                            <i class="fa-regular fa-eye-slash toggle-pass" data-target="password"></i>
+                        </div>
+                        <span class="error-note" id="err-password">*Minimum 6 characters</span>
+                    </div>
+                    <div class="input-field">
+                        <label>Confirm Password*</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="confirmPass">
+                            <i class="fa-regular fa-eye-slash toggle-pass" data-target="confirmPass"></i>
+                        </div>
+                        <span class="error-note" id="err-confirmPass">*Passwords do not match</span>
+                    </div>
+                </div>
+
+                <div class="form-grid tier-single">
+                    <div class="input-field centered-field">
+                        <label>Admin Code*</label>
+                        <input type="text" id="adminCode">
+                        <span class="error-note" id="err-adminCode">*Valid Admin Code required</span>
+                    </div>
+                </div>
+
+                <div class="btn-container">
+                    <button type="submit" class="btn-register">Register</button>
+                </div>
+            </form>
+
+            <div class="separator"></div>
+            <p class="footer-link">Already have an account? <a href="login.html" class="link-underline">Login here</a></p>
+        </main>
+
+        <main class="success-card" id="successCard" style="display: none;">
+            <div class="success-check">✔</div>
+            <h2>Account created successfully!</h2>
+            <p>You can now log in using your authorized administrator account.</p>
+            <a href="login.html" class="btn-back-login">Back to Login</a>
+        </main>
+    </div>
+
+    <script>
+        const form = document.getElementById('registerForm');
+        const regCard = document.getElementById('regCard');
+        const successCard = document.getElementById('successCard');
+
+        document.querySelectorAll('.toggle-pass').forEach(eye => {
+            eye.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                const isPass = input.type === 'password';
+                input.type = isPass ? 'text' : 'password';
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let isValid = true;
+            
+            document.querySelectorAll('.error-note').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('input').forEach(input => input.classList.remove('input-error'));
+            
+            const fields = ['firstName', 'lastName', 'email', 'password', 'confirmPass', 'adminCode'];
+            const vals = {};
+            fields.forEach(f => vals[f] = document.getElementById(f).value);
+
+            if(!vals.firstName) { triggerError('firstName'); isValid = false; }
+            if(!vals.lastName) { triggerError('lastName'); isValid = false; }
+            if(!vals.email.includes('@')) { triggerError('email'); isValid = false; }
+            if(vals.password.length < 6) { triggerError('password'); isValid = false; }
+            if(vals.password !== vals.confirmPass || !vals.confirmPass) { triggerError('confirmPass'); isValid = false; }
+            if(!vals.adminCode) { triggerError('adminCode'); isValid = false; }
+
+            if(isValid) {
+                regCard.style.display = 'none';
+                successCard.style.display = 'block';
+            } else {
+                regCard.classList.remove('shake');
+                void regCard.offsetWidth;
+                regCard.classList.add('shake');
+                document.getElementById('password').value = "";
+                document.getElementById('confirmPass').value = "";
+            }
+        });
+
+        function triggerError(id) {
+            document.getElementById(`err-${id}`).style.display = 'block';
+            document.getElementById(id).classList.add('input-error');
+        }
+
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', function() {
+                this.classList.remove('input-error');
+                const errorSpan = document.getElementById(`err-${this.id}`);
+                if(errorSpan) errorSpan.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
