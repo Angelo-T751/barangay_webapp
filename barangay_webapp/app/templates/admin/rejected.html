@@ -84,41 +84,47 @@
                         <span class="status-label-text">Change Status To:</span>
                         <strong id="modal-status-text" style="color: #dc2626;">REJECTED</strong>
                     </div>
-                    
-                    <div class="status-divider" id="statusDivider"></div>
-
-                    <div class="action-buttons-right" id="modalActionButtons">
+                    <div class="status-divider"></div>
+                    <div class="action-buttons-right">
                         <button class="btn-approve-main" style="background:#FCF00B; color:#0F2D57;" onclick="selectStatus('Pending')">PENDING</button>
                         <button class="btn-approve-main" style="background:#4ade80; color:#0F2D57;" onclick="selectStatus('Approved')">APPROVE</button>
                     </div>
                 </div>
 
-                <div class="admin-note-wrapper" id="adminNoteSection">
+                <div class="admin-note-wrapper">
                     <div class="admin-note-col">
-                        <label id="adminNoteLabel" class="admin-label-styled">ADMIN NOTE (UPDATE):</label>
+                        <label class="admin-label-styled">ADMIN NOTE (UPDATE):</label>
                         <textarea id="adminNote" placeholder="Enter reason for status change..."></textarea>
+                    </div>
+                    
+                    <div class="attach-file-col" id="uploadCol" style="display: none;">
+                        <label class="admin-label-styled">ATTACH CERT:</label>
+                        <div class="drop-zone-mini" onclick="document.getElementById('fileInput').click()">
+                            <i class="fa-solid fa-cloud-arrow-up file-icon-gray"></i>
+                            <span id="fileNameDisplay">Upload File</span>
+                            <input type="file" id="fileInput" hidden onchange="handleFileSelect(this)">
+                        </div>
                     </div>
                 </div>
 
-                <button class="update-app-btn" id="updateAppBtn" onclick="validateAndUpdate()">Save Changes</button>
+                <button class="update-app-btn" onclick="validateAndUpdate()">Save Changes</button>
                 <p id="errorMessage" style="color:#FF4F4F; text-align:center; font-size:12px; font-weight:800; margin-top:10px; display:none;"></p>
             </div>
 
             <div id="modalSuccess" style="display:none;" class="success-screen-center">
-                <div class="check-icon-3d">
-                    <i class="fa-solid fa-check"></i>
-                </div>
+                <div class="check-icon-3d"><i class="fa-solid fa-check"></i></div>
                 <h2 class="success-title-text">Status Updated!</h2>
-                <p class="success-sub-text">Record has been moved and Dashboard counts updated.</p>
-                <button class="update-app-btn" style="margin-top: 10px;" onclick="location.reload()">Return to List</button>
+                <p class="success-sub-text">Record moved and Dashboard synced.</p>
+                <button class="update-app-btn" onclick="location.reload()">Return to List</button>
             </div>
         </div>
     </div>
 
-    <div class="modal-overlay" id="logoutModalOverlay">
+     <div class="modal-overlay" id="logoutModalOverlay">
         <div class="modal-card logout-card">
             <div class="logout-icon-header">🚪</div>
             <h2 class="logout-title">Confirm Logout</h2>
+            <p class="logout-description">Are you sure you want to log out of the Admin Dashboard?</p>
             <div class="logout-footer-btns">
                 <button class="btn-logout-cancel" onclick="closeLogoutModal()">CANCEL</button>
                 <button class="btn-logout-confirm" onclick="window.location.href='login.html'">YES, LOG OUT</button>

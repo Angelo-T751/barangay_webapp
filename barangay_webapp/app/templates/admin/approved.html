@@ -79,6 +79,14 @@
                     </div>
                 </div>
 
+                <div id="currentFileDisplay" style="margin-top: 15px; padding: 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;">
+                    <label class="admin-label-styled" style="color: #15803d; margin-bottom: 5px; display: block;">CURRENT ATTACHED CERTIFICATE:</label>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-file-circle-check" style="color: #059669; font-size: 18px;"></i>
+                        <span id="displayExistingFile" style="font-weight: 700; color: #1e293b; font-size: 13px;">No file found</span>
+                    </div>
+                </div>
+
                 <div class="status-action-bar" id="statusBarContainer">
                     <div class="status-info-left">
                         <span class="status-label-text">Change Status To:</span>
@@ -98,24 +106,33 @@
                         <label id="adminNoteLabel" class="admin-label-styled">ADMIN NOTE (UPDATE):</label>
                         <textarea id="adminNote" placeholder="Enter reason for status change..."></textarea>
                     </div>
+
+                    <div class="attach-file-col" id="uploadCol">
+                        <label class="admin-label-styled">UPDATE CERTIFICATE:</label>
+                        <div class="drop-zone-mini" onclick="document.getElementById('fileInput').click()">
+                            <i class="fa-solid fa-file-signature file-icon-gray"></i>
+                            <span id="fileNameDisplay">Replace File</span>
+                            <input type="file" id="fileInput" hidden onchange="handleFileSelect(this)">
+                        </div>
+                    </div>
                 </div>
 
                 <button class="update-app-btn" id="updateAppBtn" onclick="validateAndUpdate()">Save Changes</button>
-                <p id="errorMessage" style="color:#FF4F4F; text-align:center; font-size:12px; font-weight:800; margin-top:10px; display:none;">Error message here</p>
+                <p id="errorMessage" style="color:#FF4F4F; text-align:center; font-size:12px; font-weight:800; margin-top:10px; display:none;"></p>
             </div>
 
             <div id="modalSuccess" style="display:none;" class="success-screen-center">
                 <div class="check-icon-3d">
                     <i class="fa-solid fa-check"></i>
                 </div>
-                <h2 class="success-title-text">Status Updated!</h2>
-                <p class="success-sub-text">Record has been moved to the selected status.</p>
+                <h2 class="success-title-text">Updated Successfully!</h2>
+                <p class="success-sub-text">Record and file updates have been saved.</p>
                 <button class="update-app-btn" style="margin-top: 10px;" onclick="location.reload()">Return to List</button>
             </div>
         </div>
     </div>
 
-    <div class="modal-overlay" id="logoutModalOverlay">
+     <div class="modal-overlay" id="logoutModalOverlay">
         <div class="modal-card logout-card">
             <div class="logout-icon-header">🚪</div>
             <h2 class="logout-title">Confirm Logout</h2>
