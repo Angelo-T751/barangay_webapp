@@ -14,7 +14,7 @@
     <header class="header-bar">
         <div class="brand">
             <img src="../../static/images/logo.png" alt="Logo" class="brand-logo">
-            <h2 class="brand-text">BARANGAY AINS</h2>
+            <h2 class="brand-text">Barangay AINS</h2>
         </div>
         <nav class="nav-links">
             <a href="../../templates/admin/dashboard.html" class="nav-btn">Dashboard</a>
@@ -28,7 +28,7 @@
             <div class="controls-container">
                 <div class="search-glass-card">
                     <input type="text" id="searchInput" placeholder="Search applicant name, ID, or date...">
-                    <button id="clearSearch" class="clear-btn">&times;</button>
+                    <button id="clearSearch" class="clear-btn" onclick="clearSearchField()">&times;</button>
                     <button id="searchBtn" class="search-btn-animated">Search</button>
                 </div>
                 
@@ -48,80 +48,113 @@
                     <div>DATE</div>
                     <div style="text-align: right; padding-right: 35px;">ACTIONS</div>
                 </div>
-                <div id="applicantList">
-                    </div>
+                <div id="applicantList"></div>
             </div>
         </div>
     </main>
 
     <div class="modal-overlay" id="modalOverlay">
-        <div class="modal-card">
-            <button class="close-btn" onclick="closeModal()">&times;</button>
+        <div class="modal-card applicant-card" id="modalCard">
+            <button class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            
             <div id="modalForm">
-                <h2 class="card-title" style="text-align: center; margin-bottom: 20px; font-weight: 800; color: var(--navy);">APPLICATION DETAILS</h2>
+                <h2 class="modal-main-title">Applicant Information</h2>
                 
-                <div class="m-grid">
-                    <div class="m-field"><label>ID</label><input type="text" id="m-id" readonly></div>
-                    <div class="m-field"><label>Name</label><input type="text" id="m-name" readonly></div>
-                    <div class="m-field"><label>Type</label><input type="text" id="m-type" readonly></div>
-                    <div class="m-field"><label>Date Filed</label><input type="text" value="05/10/26" readonly></div>
+                <div class="info-grid">
+                    <div class="info-group">
+                        <label>ID:</label>
+                        <input type="text" id="m-id" readonly>
+                    </div>
+                    <div class="info-group">
+                        <label>DATE:</label>
+                        <input type="text" id="m-date" readonly>
+                    </div>
+                    <div class="info-group">
+                        <label>NAME:</label>
+                        <input type="text" id="m-name" readonly>
+                    </div>
+                    <div class="info-group">
+                        <label>EMAIL:</label>
+                        <input type="text" id="m-email" readonly>
+                    </div>
+                    <div class="info-group">
+                        <label>CONTACT NO.:</label>
+                        <input type="text" id="m-contact" readonly>
+                    </div>
+                    <div class="info-group">
+                        <label>REQUESTED CERTIFICATE:</label>
+                        <input type="text" id="m-type" readonly>
+                    </div>
                 </div>
 
-                <div class="status-action-row">
-                    <div class="status-item">
-                        <span class="status-display pending" id="modal-status-text">Pending</span>
+                <div class="reason-files-row">
+                    <div class="info-group reason-box">
+                        <label>REASON/PURPOSE</label>
+                        <textarea id="m-purpose" readonly></textarea>
                     </div>
-                    <div class="v-line"></div>
-                    <div class="status-item">
-                        <button class="action-btn approve" onclick="selectStatus('Approved')">Approve</button>
-                        <button class="action-btn reject" onclick="selectStatus('Rejected')">Reject</button>
-                    </div>
-                </div>
-
-                <div class="note-upload-container">
-                    <div class="m-field flex-grow">
-                        <label>Admin Remarks</label>
-                        <textarea id="adminNote" placeholder="Enter notes here..."></textarea>
-                    </div>
-                    <div class="upload-container" id="uploadBox">
-                        <label>Certificate</label>
-                        <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
-                            <div id="plusBtn">
-                                <i class="fa-solid fa-plus"></i>
-                                <p style="font-size: 10px; font-weight: 800; margin-top: 5px;">UPLOAD</p>
-                            </div>
-                            <div id="filePreview" style="display:none; text-align: center;">
-                                <i class="fa-solid fa-file-pdf" style="font-size: 20px; color: var(--navy);"></i>
-                                <p id="fileNameDisplay" style="font-size: 9px; margin-top: 5px;"></p>
-                            </div>
+                    <div class="submitted-files-card">
+                        <label>Submitted Files:</label>
+                        <div class="file-item-link">
+                            <i class="fa-regular fa-image" style="color: #eab308; font-size: 16px;"></i>
+                            <span class="file-text-underline" id="m-filename" onclick="viewSubmittedFile()">freddy.jpg</span>
                         </div>
-                        <input type="file" id="fileInput" hidden onchange="handleFileSelect()">
                     </div>
                 </div>
-                
-                <p id="errorMessage" style="color:var(--rejected); text-align:center; display:none; font-size:11px; font-weight:800; margin-top:10px;">Please provide remarks and necessary files!</p>
-                <button class="save-btn" onclick="validateAndUpdate()">UPDATE APPLICATION</button>
+
+                <div class="status-action-bar" id="statusBarContainer">
+                    <div class="status-info-left">
+                        <span class="status-label-text">Current Status:</span>
+                        <strong id="modal-status-text">PENDING</strong>
+                    </div>
+                    
+                    <div class="status-divider" id="statusDivider"></div>
+
+                    <div class="action-buttons-right" id="modalActionButtons">
+                        <button class="btn-approve-main" onclick="selectStatus('Approved')">APPROVE</button>
+                        <button class="btn-reject-main" onclick="selectStatus('Rejected')">REJECT</button>
+                    </div>
+                </div>
+
+                <div class="admin-note-wrapper" id="adminNoteSection">
+                    <div class="admin-note-col">
+                        <label id="adminNoteLabel" class="admin-label-styled">ADMIN NOTE:</label>
+                        <textarea id="adminNote" placeholder="Enter reason or instructions..."></textarea>
+                    </div>
+                    
+                    <div class="attach-file-col" id="uploadSection" style="display: none;">
+                        <label id="attachLabel" class="admin-label-styled" style="text-transform: none; font-size: 14px; font-weight: 500; color: #0F2D57;">Attach Certificate:</label>
+                        <div class="drop-zone-mini" onclick="document.getElementById('fileInput').click()">
+                            <i class="fa-solid fa-file-lines file-icon-gray" id="fileIcon"></i>
+                            <span id="fileNameDisplay" style="text-align: center; line-height: 1.2;">UPLOAD FILE</span>
+                            <span id="changeFileHint" style="display:none; font-size:9px; color:var(--text-gray); margin-top:-5px;">Click to change</span>
+                        </div>
+                        <input type="file" id="fileInput" hidden onchange="handleFileSelect(this)">
+                    </div>
+                </div>
+
+                <button class="update-app-btn" id="updateAppBtn" onclick="validateAndUpdate()">Update Application</button>
+                <p id="errorMessage" style="color:#FF4F4F; text-align:center; font-size:12px; font-weight:800; margin-top:10px; display:none;">Error message here</p>
             </div>
 
-            <div id="modalSuccess" style="display:none; text-align:center; padding:40px 0;">
-                <i class="fa-solid fa-circle-check" style="font-size:60px; color:var(--approved);"></i>
-                <h2 style="margin-top:20px; color: var(--navy); font-weight: 800;">Update Successful!</h2>
-                <p style="color: #64748b; font-weight: 600; margin-bottom: 20px;">The record has been updated.</p>
-                <button class="save-btn" onclick="location.reload()">DONE</button>
+            <div id="modalSuccess" style="display:none;" class="success-screen-center">
+                <div class="check-icon-3d">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h2 class="success-title-text">Update Successful!</h2>
+                <p class="success-sub-text">Record has been updated successfully.</p>
+                <button class="update-app-btn" style="margin-top: 10px;" onclick="location.reload()">Return to Applicants</button>
             </div>
         </div>
     </div>
 
     <div class="modal-overlay" id="logoutModalOverlay">
         <div class="modal-card logout-card">
-            <div style="text-align: center; padding: 20px 0;">
-                <div style="font-size: 40px; margin-bottom: 15px;">🚪</div>
-                <h2 style="font-weight: 800; color: var(--navy);">Confirm Logout</h2>
-                <p style="margin: 10px 0 25px; color: #64748B; font-size: 14px; font-weight: 600;">Are you sure you want to log out of the Admin Dashboard?</p>
-                <div style="display: flex; gap: 12px; justify-content: center;">
-                    <button class="logout-action-btn cancel" onclick="closeLogoutModal()">Cancel</button>
-                    <button class="logout-action-btn confirm" onclick="window.location.href='login.html'">Yes, Log Out</button>
-                </div>
+            <div class="logout-icon-header">🚪</div>
+            <h2 class="logout-title">Confirm Logout</h2>
+            <p class="logout-description">Are you sure you want to log out of the Admin Dashboard?</p>
+            <div class="logout-footer-btns">
+                <button class="btn-logout-cancel" onclick="closeLogoutModal()">CANCEL</button>
+                <button class="btn-logout-confirm" onclick="window.location.href='login.html'">YES, LOG OUT</button>
             </div>
         </div>
     </div>

@@ -1,147 +1,251 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. UPDATED DATA ARRAY (Removed Applicant 04)
-    const allApplicants = [
-        { id: '01', name: 'Juan Dela Cruz', type: 'Barangay Clearance', purpose: 'Job Requirement', date: '05/02/26' },
-        { id: '02', name: 'Jean ValJean', type: 'Business Permit', purpose: 'Bakery Opening', date: '05/05/26' },
-        { id: '03', name: 'Maria Clara', type: 'Indigency', purpose: 'Scholarship', date: '05/09/26' }
+    let allApplicants = JSON.parse(localStorage.getItem('allApplicants')) || [
+        { id: "01", name: "Juan Dela Cruz", type: "Barangay Clearance", purpose: "Verification of requirements for community record.", date: "05/08/26", email: "applicant@email.com", contact: "0912345678", file: "freddy.jpg" },
+        { id: "02", name: "Jean Valjean", type: "Business Permit", purpose: "Verification of requirements for community record.", date: "05/08/26", email: "applicant@email.com", contact: "0912345678", file: "freddy.jpg" },
+        { id: "03", name: "Maria Clara", type: "Indigency Certificate", purpose: "Verification of requirements for community record.", date: "05/08/26", email: "applicant@email.com", contact: "0912345678", file: "freddy.jpg" }
     ];
 
-    const searchInput = document.getElementById('searchInput');
-    const clearBtn = document.getElementById('clearSearch');
+    if (!localStorage.getItem('pendingCount')) {
+        localStorage.setItem('pendingCount', allApplicants.length);
+        localStorage.setItem('approvedCount', 0);
+        localStorage.setItem('rejectedCount', 0);
+    }
+
     const applicantList = document.getElementById('applicantList');
+    const searchInput = document.getElementById('searchInput');
     let currentAppId = null;
     let selectedStatus = null;
 
-    // 2. SEARCH LOGIC
-    function triggerSearch() {
-        renderApplicants(searchInput.value);
-    }
-
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') triggerSearch();
-    });
-
-    searchInput.addEventListener('input', () => {
-        clearBtn.classList.toggle('visible', searchInput.value.length > 0);
-    });
-
-    clearBtn.addEventListener('click', () => {
-        searchInput.value = '';
-        clearBtn.classList.remove('visible');
-        renderApplicants('');
-        searchInput.focus();
-    });
-
-    document.getElementById('searchBtn').addEventListener('click', triggerSearch);
-
-    // 3. LOGOUT MODAL
-    window.openLogoutModal = function() {
-        document.getElementById('logoutModalOverlay').style.display = 'flex';
-        document.getElementById('contentBlur').classList.add('blurred');
-    }
-
-    window.closeLogoutModal = function() {
-        document.getElementById('logoutModalOverlay').style.display = 'none';
-        document.getElementById('contentBlur').classList.remove('blurred');
-    }
-
-    // 4. MAIN MODAL LOGIC
-    window.openModal = function(id, name, type) {
-        currentAppId = id;
-        selectedStatus = null;
-        document.getElementById('m-id').value = id;
-        document.getElementById('m-name').value = name;
-        document.getElementById('m-type').value = type;
-        
-        document.getElementById('modal-status-text').innerText = "Pending";
-        document.getElementById('modal-status-text').className = "status-display pending";
-        document.getElementById('adminNote').value = "";
-        document.getElementById('uploadBox').style.display = "none";
-        document.getElementById('errorMessage').style.display = "none";
-        document.getElementById('modalForm').style.display = "block";
-        document.getElementById('modalSuccess').style.display = "none";
-        document.getElementById('plusBtn').style.display = "flex";
-        document.getElementById('filePreview').style.display = "none";
-
-        document.getElementById('modalOverlay').style.display = 'flex';
-        document.getElementById('contentBlur').classList.add('blurred');
-    }
-
-    window.closeModal = function() {
-        document.getElementById('modalOverlay').style.display = 'none';
-        document.getElementById('contentBlur').classList.remove('blurred');
-    }
-
-    window.selectStatus = function(choice) {
-        selectedStatus = choice;
-        const statusText = document.getElementById('modal-status-text');
-        statusText.innerText = choice;
-        statusText.className = 'status-display ' + choice.toLowerCase();
-        document.getElementById('uploadBox').style.display = (choice === 'Approved') ? 'flex' : 'none';
-    }
-
-    window.handleFileSelect = function() {
-        const fileInput = document.getElementById('fileInput');
-        if (fileInput.files.length > 0) {
-            document.getElementById('plusBtn').style.display = "none";
-            document.getElementById('filePreview').style.display = "block";
-            document.getElementById('fileNameDisplay').innerText = fileInput.files[0].name;
-        }
-    }
-
-    window.validateAndUpdate = function() {
-        const note = document.getElementById('adminNote').value.trim();
-        const fileUploaded = document.getElementById('fileInput').files.length > 0;
-        
-        if (selectedStatus && note && (selectedStatus === 'Rejected' || (selectedStatus === 'Approved' && fileUploaded))) {
-            let processedIds = JSON.parse(localStorage.getItem('processedIds')) || [];
-            processedIds.push(currentAppId);
-            localStorage.setItem('processedIds', JSON.stringify(processedIds));
-            
-            document.getElementById('modalForm').style.display = 'none';
-            document.getElementById('modalSuccess').style.display = 'block';
-        } else {
-            document.getElementById('errorMessage').style.display = 'block';
-        }
-    }
-
-    // 5. RENDER LOGIC WITH STAGGER ANIMATION
-    function renderApplicants(searchTerm = "") {
-        const processedIds = JSON.parse(localStorage.getItem('processedIds')) || [];
+    function renderTable(searchTerm = "") {
+        // GINAGAMIT NA NATIN ANG appStatuses INSTEAD OF processedIds
+        let appStatuses = JSON.parse(localStorage.getItem('appStatuses')) || {};
         applicantList.innerHTML = "";
-
+        
         const filtered = allApplicants.filter(app => {
-            if (processedIds.includes(app.id)) return false;
-            const dataString = (app.name + app.id + app.date + app.type).toLowerCase();
-            return dataString.includes(searchTerm.toLowerCase());
+            // Check status: kapag hindi "Pending", wag isama sa listahan dito
+            let status = appStatuses[app.id] || "Pending";
+            if (status !== "Pending") return false; 
+            
+            return (app.name + app.id + app.type).toLowerCase().includes(searchTerm.toLowerCase());
         });
 
-        filtered.forEach((app, index) => {
+        // KAPAG WALANG LUMABAS SA SEARCH
+        if (filtered.length === 0) {
+            applicantList.innerHTML = `
+                <div class="no-results-msg">
+                    <i class="fa-solid fa-folder-open" style="font-size: 24px; color: #cbd5e1; display: block; margin-bottom: 8px;"></i>
+                    No applicants found!
+                </div>`;
+            return;
+        }
+
+        filtered.forEach(app => {
             const row = document.createElement('div');
             row.className = 'applicant-row-full';
-            
-            // Apply the stagger delay here
-            row.style.animationDelay = `${index * 0.1}s`; 
-            
             row.innerHTML = `
-                <div style="color: #64748b;">${app.id}</div>
-                <div style="font-weight: 800; color: var(--navy);">${app.name}</div>
+                <div>${app.id}</div>
+                <div style="font-weight: 800; color: #0F2D57;">${app.name}</div>
                 <div>${app.type}</div>
-                <div style="color: #64748b; font-size: 11px;">${app.purpose}</div>
+                <div style="font-size: 11px; color: #64748b; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${app.purpose}</div>
                 <div>${app.date}</div>
-                <div class="action-group">
-                    <div class="status-circle-yellow"></div>
-                    <button class="btn-wireframe approve" onclick="openModal('${app.id}', '${app.name}', '${app.type}')">
-                        <i class="fa-solid fa-check"></i>
-                    </button>
-                    <button class="btn-wireframe reject" onclick="openModal('${app.id}', '${app.name}', '${app.type}')">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-            `;
+                <div class="action-cell">
+                    <button class="quick-btn quick-approve" onclick="quickAction('${app.id}', 'Approved')"><i class="fa-solid fa-check"></i></button>
+                    <button class="quick-btn quick-reject" onclick="quickAction('${app.id}', 'Rejected')"><i class="fa-solid fa-xmark"></i></button>
+                    <button class="view-btn" onclick="openModal('${app.id}', 'View')">VIEW</button>
+                </div>`;
             applicantList.appendChild(row);
         });
     }
 
-    renderApplicants();
+    window.clearSearchField = () => {
+        searchInput.value = "";
+        renderTable();
+    };
+
+    window.quickAction = (id, status) => {
+        openModal(id, 'Action');
+        selectStatus(status);
+    };
+
+    window.openModal = (id, mode) => {
+        currentAppId = id;
+        const app = allApplicants.find(a => a.id === id);
+        if(!app) return;
+
+        document.getElementById('m-id').value = app.id;
+        document.getElementById('m-name').value = app.name;
+        document.getElementById('m-date').value = app.date;
+        document.getElementById('m-type').value = app.type;
+        document.getElementById('m-purpose').value = app.purpose;
+        document.getElementById('m-email').value = app.email;
+        document.getElementById('m-contact').value = app.contact;
+        document.getElementById('m-filename').innerText = app.file;
+
+        const updateBtn = document.getElementById('updateAppBtn');
+        const adminSection = document.getElementById('adminNoteSection');
+        const modalActions = document.getElementById('modalActionButtons');
+        const statusText = document.getElementById('modal-status-text');
+        const statusDivider = document.getElementById('statusDivider');
+        const fileIcon = document.getElementById('fileIcon');
+        const changeHint = document.getElementById('changeFileHint');
+
+        selectedStatus = null;
+        document.getElementById('adminNote').value = "";
+        document.getElementById('uploadSection').style.display = "none";
+        document.getElementById('adminNoteLabel').innerHTML = 'ADMIN NOTE:';
+        
+        document.getElementById('fileInput').value = ""; 
+        document.getElementById('fileNameDisplay').innerText = "UPLOAD FILE"; 
+        fileIcon.className = "fa-solid fa-file-lines file-icon-gray";
+        fileIcon.style.color = "";
+        changeHint.style.display = "none";
+        
+        document.getElementById('modalCard').classList.remove('error-stroke');
+        document.getElementById('errorMessage').style.display = 'none';
+
+        if(mode === 'View') {
+            updateBtn.style.display = 'none';
+            adminSection.style.display = 'none';
+            modalActions.style.display = 'none';
+            statusDivider.style.display = 'none';
+            statusText.innerText = "PENDING";
+            statusText.style.color = "#0F2D57";
+        } else {
+            updateBtn.style.display = 'block';
+            adminSection.style.display = 'flex';
+            modalActions.style.display = 'flex';
+            statusDivider.style.display = 'block';
+            statusText.innerText = "PENDING";
+            statusText.style.color = "#0F2D57";
+        }
+        
+        const modal = document.getElementById('modalOverlay');
+        modal.style.display = 'flex';
+        setTimeout(() => modal.classList.add('active'), 10);
+        document.getElementById('contentBlur').classList.add('blurred');
+        document.getElementById('modalForm').style.display = 'block';
+        document.getElementById('modalSuccess').style.display = 'none';
+    };
+
+    window.viewSubmittedFile = () => {
+        const filename = document.getElementById('m-filename').innerText;
+        window.open(filename, '_blank'); 
+    };
+
+    window.selectStatus = (status) => {
+        selectedStatus = status;
+        const statusText = document.getElementById('modal-status-text');
+        const uploadBox = document.getElementById('uploadSection');
+        const label = document.getElementById('adminNoteLabel');
+        
+        document.getElementById('modalCard').classList.remove('error-stroke');
+        document.getElementById('errorMessage').style.display = 'none';
+
+        statusText.innerText = status.toUpperCase();
+        
+        if(status === 'Approved') {
+            statusText.style.color = "#0F2D57"; 
+            uploadBox.style.display = "flex"; 
+            label.innerHTML = 'ADMIN NOTE:<br><span style="color:#059669; font-size:10px; font-weight:800; text-transform:uppercase;">Action: APPROVED</span>';
+        } else {
+            statusText.style.color = "#0F2D57";
+            uploadBox.style.display = "none";
+            label.innerHTML = 'ADMIN NOTE:<br><span style="color:#dc2626; font-size:10px; font-weight:800; text-transform:uppercase;">Action: REJECTED</span>';
+        }
+    };
+
+    window.handleFileSelect = (input) => {
+        const icon = document.getElementById('fileIcon');
+        const changeHint = document.getElementById('changeFileHint');
+
+        if (input.files && input.files.length > 0) {
+            document.getElementById('fileNameDisplay').innerText = input.files[0].name;
+            icon.className = "fa-solid fa-file-circle-check";
+            icon.style.color = "#4ade80";
+            changeHint.style.display = "block";
+
+            document.getElementById('modalCard').classList.remove('error-stroke');
+            document.getElementById('errorMessage').style.display = 'none';
+        } else {
+            document.getElementById('fileNameDisplay').innerText = "UPLOAD FILE";
+            icon.className = "fa-solid fa-file-lines file-icon-gray";
+            icon.style.color = "";
+            changeHint.style.display = "none";
+        }
+    };
+
+    function triggerError(message) {
+        const card = document.getElementById('modalCard');
+        const errorMsg = document.getElementById('errorMessage');
+        
+        errorMsg.innerText = message;
+        errorMsg.style.display = "block";
+        card.classList.add('shake', 'error-stroke');
+        setTimeout(() => card.classList.remove('shake'), 400);
+    }
+
+    window.validateAndUpdate = () => {
+        const note = document.getElementById('adminNote').value.trim();
+        const fileInput = document.getElementById('fileInput');
+
+        let missingFields = [];
+
+        if(!selectedStatus) missingFields.push("Status");
+        if(note === "") missingFields.push("Admin Note");
+        if(selectedStatus === 'Approved' && (!fileInput.files || fileInput.files.length === 0)) missingFields.push("Certificate File");
+
+        if(missingFields.length > 0) {
+            let errorText = missingFields.length === 1 ? 
+                `Missing required field: ${missingFields[0]}!` : 
+                `Missing required fields: ${missingFields.join(', ')}!`;
+            triggerError(errorText);
+            return;
+        }
+        
+        document.getElementById('modalCard').classList.remove('error-stroke');
+        document.getElementById('errorMessage').style.display = 'none';
+
+        // BAGONG LOGIC FOR STATUS TRACKING & RECALCULATION
+        let appStatuses = JSON.parse(localStorage.getItem('appStatuses')) || {};
+        appStatuses[currentAppId] = selectedStatus;
+        localStorage.setItem('appStatuses', JSON.stringify(appStatuses));
+
+        // RECALCULATE COUNTS FOR DASHBOARD
+        let pending = 0, approved = 0, rejected = 0;
+        allApplicants.forEach(app => {
+            let stat = appStatuses[app.id] || "Pending";
+            if(stat === "Pending") pending++;
+            else if(stat === "Approved") approved++;
+            else if(stat === "Rejected") rejected++;
+        });
+
+        localStorage.setItem('pendingCount', pending);
+        localStorage.setItem('approvedCount', approved);
+        localStorage.setItem('rejectedCount', rejected);
+        
+        document.getElementById('modalForm').style.display = 'none';
+        document.getElementById('modalSuccess').style.display = 'block';
+    };
+
+    window.closeModal = () => {
+        document.getElementById('modalOverlay').classList.remove('active');
+        document.getElementById('modalCard').classList.remove('error-stroke');
+        document.getElementById('errorMessage').style.display = 'none';
+        setTimeout(() => document.getElementById('modalOverlay').style.display = 'none', 300);
+        document.getElementById('contentBlur').classList.remove('blurred');
+    };
+
+    window.openLogoutModal = () => { 
+        document.getElementById('logoutModalOverlay').style.display = 'flex'; 
+        document.getElementById('contentBlur').classList.add('blurred'); 
+    };
+
+    window.closeLogoutModal = () => { 
+        document.getElementById('logoutModalOverlay').style.display = 'none'; 
+        document.getElementById('contentBlur').classList.remove('blurred'); 
+    };
+
+    searchInput.addEventListener('input', (e) => renderTable(e.target.value));
+    
+    renderTable();
 });
