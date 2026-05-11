@@ -26,12 +26,12 @@ Run the structure generator script to create all folders and files:
 
     python create_project_structure.py
 
-Step 2: Navigate to Project Folder
+### Step 2: Navigate to Project Folder
 bash
 
     cd barangay_webapp
 
-Step 3: Create Virtual Environment
+### Step 3: Create Virtual Environment
 
 Windows:
 bash
@@ -45,65 +45,24 @@ bash
     python3 -m venv venv
     source venv/bin/activate
 
-Step 4: Install Dependencies
+### Step 4: Install Dependencies
 bash
 
     pip install -r requirements.txt
 
-Use this to flush the cache if requirements.txt is not downloading
+### Use this to flush the cache if requirements.txt is not downloading
 
     pip cache purge
-    
-Step 4.5: Create Environment
-Install the correspondng setup file for your OS. open terminal in your project folder and run:
 
-Linux Ubuntu
+If imports are not recognized: 
+    Ctrl + Shift + P to open the hotbar and type:
 
-    # Step 1: Make the setup script executable
-    chmod +x setup.sh
-
-    # Step 2: Run the setup script
-    ./setup.sh
-
-    # Step 3: Activate the virtual environment (if not already activated)
-    source venv\bin\activate
-
-    # Step 4: Verify Flask is installed
-    pip list | grep Flask
-
-    # Step 5: Create the database
-    mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS barangay_db;"
-
-    # Step 6: Initialize database tables
-    python3 config/database.py
-
-    # Step 7: Run the application
-    python3 run.py
-
-Windows
-
-    # Step 1: Go to your project folder
-    cd /media/ace-ofdiamonds/Data/LinuxMint/PythonProjects/barangay_webapp
-
-    # Step 2: Activate virtual environment
-    source venv/bin/activate
-
-    # Step 3: Install all dependencies
-    pip install -r requirements.txt
-
-    # Step 4: Create the database (enter your MySQL password when prompted)
-    mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS barangay_db;"
-
-    # Step 5: Initialize database tables
-    python3 config/database.py
-    
-    # Step 6: Run the application
-    python3 run.py
-
-    
+        Python: Select Interpreter
+        
+Select the one with .venv/bin/python. This is the Virtual Environment you setup in Step 3
     
 
-Step 5: Configure Environment Variables
+### Step 5: Configure Environment Variables
 
 Open the .env file and update the values:
 env
@@ -125,7 +84,7 @@ env
     PAYMENT_API_KEY=your-payment-api-key
     PAYMENT_SECRET_KEY=your-payment-secret-key
 
-Step 6: Create Database
+### Step 6: Create Database
 
 Log in to MariaDB/MySQL and create the database:
 sql
@@ -137,17 +96,17 @@ bash
 
     mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS barangay_db;"
 
-Step 7: Initialize Database Tables
+### Step 7: Initialize Database Tables
 bash
 
     python config/database.py
 
-Step 8: Run the Application
+### Step 8: Run the Application
 bash
 
     python run.py
 
-Step 9: Access the Application
+### Step 9: Access the Application
 
     User Side: http://localhost:5000/user/dashboard
 
@@ -159,33 +118,45 @@ Default Admin Account:
 
     Password: Admin@123
 
-START UP 
+# START UP 
 
-LINUX - Open & Work on Project
+## LINUX - Open & Work on Project
 bash
 
-# 1. Navigate to project
+Step 1. Navigate to project
+
     cd ~/barangay_webapp
 
-# 2. Activate virtual environment
+
+Step 2. Activate virtual environment
+
     source venv/bin/activate
 
-# 3. Run the app
+
+Step 3. Run the app
+
     python3 run.py
 
-WINDOWS - Open & Work on Project
+## WINDOWS - Open & Work on Project
 cmd
 
-# 1. Navigate to project
+Step 1. Navigate to project
+
     cd C:\Users\YourName\barangay_webapp
 
-# 2. Activate virtual environment
+
+Step 2. Activate virtual environment
+
     venv\Scripts\activate
 
-# 3. Run the app
+
+Step 3. Run the app
+
     python3 run.py
+    
 
 🛠️ Troubleshooting
+
 Issue	Solution
 pip not found	Install Python and check "Add Python to PATH" during installation
 mysql not found	Add MySQL/MariaDB to system PATH
