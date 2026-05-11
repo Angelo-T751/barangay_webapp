@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Barangay AINS – Apply for Certificate</title>
+  <link rel="stylesheet" href="../../static/css/index.css">
+  <link rel="stylesheet" href="../../static/css/apply.css">
+  <script src="../../static/js/apply.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-brand">Barangay AINS</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="apply.html" class="active">Apply</a></li>
+      <li><a href="track.html">Track</a></li>
+      <li><a href="admin.html" class="nav-admin">Admin</a></li>
+    </ul>
+  </nav>
+
+  <main class="apply-container">
+    <div class="apply-card">
+      <h1 class="apply-title">Apply for Certificate</h1>
+      <p class="apply-subtitle">Fill out the form below. All fields are required.</p>
+
+      <form id="certificateForm">
+        <!-- Personal Information -->
+        <fieldset class="form-section">
+          <legend>Personal Information</legend>
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input type="text" id="firstName" name="firstName" required />
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input type="text" id="lastName" name="lastName" required />
+            </div>
+          </div>
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" required />
+            </div>
+          </div>
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label for="house">House Number</label>
+              <input type="text" id="house" name="house" required />
+            </div>
+            <div class="form-group">
+              <label for="street">Street</label>
+              <input type="text" id="street" name="street" required />
+            </div>
+          </div>
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label for="barangay">Barangay</label>
+              <input type="text" id="barangay" name="barangay" value="AINS" required />
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" value="Makati" required />
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Certificate Details -->
+        <fieldset class="form-section">
+          <legend>Certificate Details</legend>
+          <div class="form-group">
+            <label for="certType">Select Certificate Type</label>
+            <select id="certType" name="certType" required>
+              <option value="" disabled selected>– Choose certificate –</option>
+              <option value="Barangay Clearance">Barangay Clearance</option>
+              <option value="Certificate of Residency">Certificate of Residency</option>
+              <option value="Certificate of Indigency">Certificate of Indigency</option>
+              <option value="Barangay ID">Barangay ID</option>
+              <option value="Certificate of Good Moral">Certificate of Good Moral</option>
+              <option value="Business Clearance">Business Clearance</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="purpose">Purpose / Reason</label>
+            <textarea id="purpose" name="purpose" rows="3" placeholder="Why do you need this certificate?" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Required Documents (PDF or image, max 5MB)</label>
+            <div class="upload-area" id="uploadArea">
+              <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" style="display: none;" />
+              <div class="upload-message">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M12 16v-6m0 0-2 2m2-2 2 2M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+                  <path d="M7 10l5-5 5 5" />
+                </svg>
+                <p>Drag & drop files or <span class="browse-link">click to upload</span></p>
+                <small>Supported: PDF, JPG, PNG (max 5MB)</small>
+              </div>
+              <div id="filePreview" class="file-preview hidden">
+                <span class="file-name"></span>
+                <button type="button" id="removeFileBtn" class="remove-file">&times;</button>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="form-actions">
+          <button type="button" id="cancelBtn" class="btn btn-outline-dark">Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit Application</button>
+        </div>
+      </form>
+
+      <!-- Success message (appears below form after submit) -->
+      <div id="successMessage" class="success-message hidden">
+        <div class="success-title">Application submitted successfully!</div>
+        <div class="success-tracking">Your Tracking Code: <span id="trackingCodeDisplay"></span></div>
+        <div class="success-note">Please save this code to check your application status.</div>
+      </div>
+    </div>
+  </main>
+
+  <script src="apply.js"></script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+/* apply.css – Clean, simple success message below form */
+
+.apply-container {
+  max-width: 860px;
+  margin: 3rem auto;
+  padding: 0 1.5rem;
+}
+
+.apply-card {
+  background: var(--white);
+  border-radius: 24px;
+  box-shadow: 10px 10px 0px rgba(13, 31, 78, 0.12);
+  padding: 2.5rem;
+}
+
+.apply-title {
+  font-family: var(--font);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.apply-subtitle {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  border-left: 3px solid var(--gold);
+  padding-left: 1rem;
+}
+
+.form-section {
+  border: none;
+  margin-bottom: 2rem;
+  padding: 0;
+}
+
+.form-section legend {
+  font-family: var(--font);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid rgba(201, 168, 76, 0.4);
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  gap: 1.2rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.form-row.two-col .form-group {
+  flex: 1;
+  min-width: 180px;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+  width: 100%;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.01em;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: var(--font);
+  font-size: 0.9rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  background: var(--white);
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.2);
+}
+
+/* Upload area */
+.upload-area {
+  border: 2px dashed #cbd5e1;
+  border-radius: 20px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  background: #fafcff;
+}
+
+.upload-area:hover {
+  border-color: var(--gold);
+  background: #fffdf7;
+}
+
+.upload-message svg {
+  color: var(--gold-light);
+  margin-bottom: 0.5rem;
+}
+
+.upload-message p {
+  font-size: 0.9rem;
+  color: var(--navy);
+  margin: 0.5rem 0;
+}
+
+.browse-link {
+  color: var(--gold);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.file-preview {
+  margin-top: 1rem;
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.file-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--navy);
+  word-break: break-all;
+}
+
+.remove-file {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #94a3b8;
+  transition: color 0.2s;
+}
+
+.remove-file:hover {
+  color: #dc2626;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Form action buttons */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eef2f6;
+}
+
+.btn-outline-dark {
+  background: transparent;
+  border: 1.5px solid var(--navy);
+  color: var(--navy);
+  transition: background 0.2s;
+}
+
+.btn-outline-dark:hover {
+  background: rgba(13, 31, 78, 0.05);
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: var(--navy-dark);
+  box-shadow: 0 2px 8px rgba(201, 168, 76, 0.2);
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+  background: var(--gold-light);
+}
+
+/* Success message – separate centered section, no green */
+.success-message {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: var(--white);
+  border: 1px solid rgba(13, 31, 78, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(13, 31, 78, 0.05);
+  text-align: center;
+}
+
+.success-title {
+  font-family: var(--font);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.success-tracking {
+  font-family: monospace;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--navy-dark);
+  margin: 0.75rem 0;
+}
+
+.success-note {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .apply-container {
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+  }
+  .apply-card {
+    padding: 1.5rem;
+  }
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
