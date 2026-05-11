@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejected Applications - Barangay AINS</title>
+    <link rel="stylesheet" href="../../static/css/approved.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="fade-in">
+    <div class="stripe-bg"></div>
+
+    <header class="header-bar">
+        <div class="brand">
+            <img src="../../static/images/logo.png" alt="Logo" class="brand-logo">
+            <h2 class="brand-text">Barangay AINS</h2>
+        </div>
+        <nav class="nav-links">
+            <a href="../../templates/admin/dashboard.html" class="nav-btn">Dashboard</a>
+            <a href="../../templates/admin/pending.html" class="nav-btn active">Applications</a>
+            <a href="#" class="nav-btn" onclick="openLogoutModal()">Logout</a>
+        </nav>
+    </header>
+
+    <main class="main-content" id="contentBlur">
+        <div class="zoom-container">
+            <div class="controls-container">
+                <div class="search-glass-card">
+                    <input type="text" id="searchInput" placeholder="Search rejected applicant...">
+                    <button id="clearSearch" class="clear-btn" onclick="clearSearchField()">&times;</button>
+                    <button id="searchBtn" class="search-btn-animated">Search</button>
+                </div>
+                
+                <div class="filter-tabs">
+                    <a href="../../templates/admin/pending.html" class="filter-btn pending">PENDING</a>
+                    <a href="../../templates/admin/approved.html" class="filter-btn approved">APPROVED</a>
+                    <a href="../../templates/admin/rejected.html" class="filter-btn rejected active">REJECTED</a>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-header">
+                    <div>ID</div>
+                    <div>NAME</div>
+                    <div>TYPE</div>
+                    <div>PURPOSE</div>
+                    <div>DATE</div>
+                    <div style="text-align: right; padding-right: 35px;">ACTIONS</div>
+                </div>
+                <div id="applicantList"></div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-card applicant-card" id="modalCard">
+            <button class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div id="modalForm">
+                <h2 class="modal-main-title">Edit Rejected Applicant</h2>
+                
+                <div class="info-grid">
+                    <div class="info-group">
+                        <label>ID:</label>
+                        <input type="text" id="m-id" readonly>
+                    </div>
+                    <div class="info-group">
+                        <label>DATE:</label>
+                        <input type="text" id="m-date" readonly>
+                    </div>
+                    <div class="info-group">
+                        <label>NAME:</label>
+                        <input type="text" id="m-name" readonly>
+                    </div>
+                    <div class="info-group">
+                        <label>REQUESTED CERTIFICATE:</label>
+                        <input type="text" id="m-type" readonly>
+                    </div>
+                </div>
+
+                <div class="status-action-bar" id="statusBarContainer">
+                    <div class="status-info-left">
+                        <span class="status-label-text">Change Status To:</span>
+                        <strong id="modal-status-text" style="color: #dc2626;">REJECTED</strong>
+                    </div>
+                    <div class="status-divider"></div>
+                    <div class="action-buttons-right">
+                        <button class="btn-approve-main" style="background:#FCF00B; color:#0F2D57;" onclick="selectStatus('Pending')">PENDING</button>
+                        <button class="btn-approve-main" style="background:#4ade80; color:#0F2D57;" onclick="selectStatus('Approved')">APPROVE</button>
+                    </div>
+                </div>
+
+                <div class="admin-note-wrapper">
+                    <div class="admin-note-col">
+                        <label class="admin-label-styled">ADMIN NOTE (UPDATE):</label>
+                        <textarea id="adminNote" placeholder="Enter reason for status change..."></textarea>
+                    </div>
+                    
+                    <div class="attach-file-col" id="uploadCol" style="display: none;">
+                        <label class="admin-label-styled">ATTACH CERT:</label>
+                        <div class="drop-zone-mini" onclick="document.getElementById('fileInput').click()">
+                            <i class="fa-solid fa-cloud-arrow-up file-icon-gray"></i>
+                            <span id="fileNameDisplay">Upload File</span>
+                            <input type="file" id="fileInput" hidden onchange="handleFileSelect(this)">
+                        </div>
+                    </div>
+                </div>
+
+                <button class="update-app-btn" onclick="validateAndUpdate()">Save Changes</button>
+                <p id="errorMessage" style="color:#FF4F4F; text-align:center; font-size:12px; font-weight:800; margin-top:10px; display:none;"></p>
+            </div>
+
+            <div id="modalSuccess" style="display:none;" class="success-screen-center">
+                <div class="check-icon-3d"><i class="fa-solid fa-check"></i></div>
+                <h2 class="success-title-text">Status Updated!</h2>
+                <p class="success-sub-text">Record moved and Dashboard synced.</p>
+                <button class="update-app-btn" onclick="location.reload()">Return to List</button>
+            </div>
+        </div>
+    </div>
+
+     <div class="modal-overlay" id="logoutModalOverlay">
+        <div class="modal-card logout-card">
+            <div class="logout-icon-header">🚪</div>
+            <h2 class="logout-title">Confirm Logout</h2>
+            <p class="logout-description">Are you sure you want to log out of the Admin Dashboard?</p>
+            <div class="logout-footer-btns">
+                <button class="btn-logout-cancel" onclick="closeLogoutModal()">CANCEL</button>
+                <button class="btn-logout-confirm" onclick="window.location.href='login.html'">YES, LOG OUT</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../static/js/rejected.js"></script>
+</body>
+</html>
