@@ -1,5 +1,3 @@
-// track.js – search and display application details
-
 document.addEventListener('DOMContentLoaded', function() {
   const searchBtn = document.getElementById('searchBtn');
   const trackingInput = document.getElementById('trackingCodeInput');
@@ -7,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const noResultCard = document.getElementById('noResultCard');
   const trackAnotherBtns = document.querySelectorAll('#trackAnotherBtn, #noResultTrackAnotherBtn');
 
-  // Display elements
   const statusBadge = document.getElementById('statusBadge');
   const trackingCodeDisplay = document.getElementById('trackingCodeDisplay');
   const fullNameSpan = document.getElementById('fullName');
@@ -23,33 +20,27 @@ document.addEventListener('DOMContentLoaded', function() {
   const downloadSection = document.getElementById('downloadSection');
   const downloadBtn = document.getElementById('downloadBtn');
 
-  // Helper: get all applications from localStorage
   function getApplications() {
     return JSON.parse(localStorage.getItem('barangay_applications') || '[]');
   }
 
-  // Helper: format date
   function formatDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' });
   }
 
-  // Display application details
   function displayApplication(app) {
-    // Status badge
     const status = app.status || 'Pending';
     statusBadge.textContent = status.toUpperCase();
     statusBadge.className = `status-badge ${status.toLowerCase()}`;
     trackingCodeDisplay.textContent = app.trackingCode;
 
-    // Applicant info
     fullNameSpan.textContent = `${app.firstName || ''} ${app.lastName || ''}`.trim() || 'N/A';
     emailSpan.textContent = app.email || 'N/A';
     phoneSpan.textContent = app.phone || 'N/A';
     const addressParts = [app.house, app.street, app.barangay, app.city].filter(p => p);
     addressSpan.textContent = addressParts.length ? addressParts.join(', ') : 'N/A';
 
-    // Documents
     documentsListDiv.innerHTML = '';
     if (app.fileName) {
       const docItem = document.createElement('div');
@@ -66,12 +57,10 @@ document.addEventListener('DOMContentLoaded', function() {
       documentsListDiv.innerHTML = '<p class="text-muted">No documents uploaded</p>';
     }
 
-    // Application details
     certTypeSpan.textContent = app.certType || 'N/A';
     purposeSpan.textContent = app.purpose || 'N/A';
     dateSubmittedSpan.textContent = app.submittedAt ? formatDate(app.submittedAt) : 'N/A';
 
-    // Remarks for rejected
     if (status.toLowerCase() === 'rejected' && app.remarks) {
       remarksSection.classList.remove('hidden');
       remarksText.textContent = app.remarks;
@@ -79,19 +68,16 @@ document.addEventListener('DOMContentLoaded', function() {
       remarksSection.classList.add('hidden');
     }
 
-    // Download button for approved
     if (status.toLowerCase() === 'approved') {
       downloadSection.classList.remove('hidden');
     } else {
       downloadSection.classList.add('hidden');
     }
 
-    // Show result card
     resultCard.classList.remove('hidden');
     noResultCard.classList.add('hidden');
   }
 
-  // Search handler
   function searchApplication() {
     const code = trackingInput.value.trim().toUpperCase();
     if (!code) {
@@ -110,20 +96,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Reset to search view
   function resetToSearch() {
     trackingInput.value = '';
     resultCard.classList.add('hidden');
     noResultCard.classList.add('hidden');
   }
 
-  // Download certificate (mock)
   function downloadCertificate() {
     alert('Certificate download will be available soon.\n(This is a demo placeholder.)');
-    // In a real system, you would generate a PDF or link to a file.
   }
 
-  // Event listeners
   searchBtn.addEventListener('click', searchApplication);
   trackingInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') searchApplication();
