@@ -17,12 +17,21 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="apply.html">Apply</a></li>
       <li><a href="track.html" class="active">Track</a></li>
-      <li><a href="admin.html" class="nav-admin">Admin</a></li>
+      <li class="nav-notification">
+        <button class="notif-btn" id="notifBtn">
+          <svg class="bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+          </svg>
+        </button>
+      </li>
+      <li class="nav-logout">
+        <a href="./user_login.html" class="logout-btn">Logout</a>
+      </li>
     </ul>
   </nav>
 
   <main class="track-container">
-    <!-- Search Section -->
     <div class="search-card">
       <h1 class="track-title">Track Your Application</h1>
       <p class="track-subtitle">Enter your tracking code to check status</p>
@@ -32,14 +41,12 @@
       </div>
     </div>
 
-    <!-- Results Section (hidden until search) -->
     <div id="resultCard" class="result-card hidden">
       <div class="status-header">
         <div class="status-badge" id="statusBadge">PENDING</div>
         <div class="tracking-code-display" id="trackingCodeDisplay"></div>
       </div>
 
-      <!-- Applicant Information (first) -->
       <div class="info-section">
         <h2>Applicant Information</h2>
         <div class="info-grid">
@@ -50,7 +57,6 @@
         </div>
       </div>
 
-      <!-- Application Details (second) -->
       <div class="info-section">
         <h2>Application Details</h2>
         <div class="info-grid">
@@ -60,31 +66,26 @@
         </div>
       </div>
 
-      <!-- Remarks (only for Rejected) – third -->
       <div id="remarksSection" class="info-section hidden">
         <h2>Remarks</h2>
         <p id="remarksText" class="remarks-text"></p>
       </div>
 
-      <!-- Documents (last, after all details) -->
       <div class="info-section">
         <h2>Submitted Documents</h2>
         <div id="documentsList" class="documents-list"></div>
       </div>
 
-      <!-- Download button for Approved -->
       <div id="downloadSection" class="download-section hidden">
         <button id="downloadBtn" class="btn btn-primary">DOWNLOAD CERTIFICATE</button>
       </div>
 
-      <!-- Action buttons -->
       <div class="action-buttons">
         <button id="trackAnotherBtn" class="btn btn-outline-dark">Track Another</button>
         <a href="apply.html" class="btn btn-navy">New Application</a>
       </div>
     </div>
 
-    <!-- No result message -->
     <div id="noResultCard" class="result-card hidden">
       <div class="no-result">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -103,5 +104,13 @@
   </main>
 
   <script src="track.js"></script>
+  <script>
+    const notifBtn = document.getElementById('notifBtn');
+    if (notifBtn) {
+      notifBtn.addEventListener('click', () => {
+        alert('You have new notifications.');
+      });
+    }
+  </script>
 </body>
 </html>

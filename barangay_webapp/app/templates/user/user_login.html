@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Barangay AINS – Resident Login</title>
+  <link rel="stylesheet" href="../../static/css/user_login.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <div class="login-wrapper">
+    <div class="login-header-outside">
+      <h1 class="login-title-outside">Barangay AINS</h1>
+      <p class="portal-sub-outside">OFFICIAL RESIDENT PORTAL</p>
+    </div>
+
+    <div class="login-card">
+      <div class="login-welcome">
+        <p class="welcome-text">Welcome Back!</p>
+        <p class="signin-text">Sign in to access your barangay services</p>
+      </div>
+
+      <form id="userLoginForm">
+        <div class="form-group">
+          <label for="residentId">Resident ID</label>
+          <input type="text" id="residentId" name="residentId" required autocomplete="username" />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required autocomplete="current-password" />
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Log In</button>
+        </div>
+
+        <div class="register-prompt">
+          <span>No account yet?</span>
+          <button type="button" id="registerBtn" class="btn-link">Register here</button>
+        </div>
+
+        <input type="hidden" id="redirectAfterLogin" value="index.html" />
+      </form>
+    </div>
+  </div>
+
+  <div class="login-skyline">
+    <picture>
+      <source srcset="../../static/images/user_background2.png" type="image/png">
+      <img class="skyline-img" 
+           src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 160'%3E%3Crect width='1440' height='160' fill='%230d1f4e'/%3E%3Cpath fill='%231a2e6e' d='M0,160 L0,110 L60,110 L60,80 L110,80 L110,50 L150,50 L150,90 L200,90 L200,40 L240,40 L240,100 L290,100 L290,30 L330,30 L330,120 L380,120 L380,60 L430,60 L430,130 L480,130 L480,20 L530,20 L530,140 L580,140 L580,70 L630,70 L630,110 L680,110 L680,45 L730,45 L730,125 L780,125 L780,55 L830,55 L830,95 L880,95 L880,35 L930,35 L930,115 L980,115 L980,65 L1030,65 L1030,105 L1080,105 L1080,25 L1130,25 L1130,135 L1180,135 L1180,75 L1230,75 L1230,150 L1280,150 L1280,10 L1330,10 L1330,90 L1380,90 L1380,50 L1440,50 L1440,160 Z'/%3E%3C/svg%3E"
+           alt="Blue City Skyline - user_background2">
+    </picture>
+  </div>
+
+  <script src="../../static/js/user_login.js"></script>
+</body>
+</html>

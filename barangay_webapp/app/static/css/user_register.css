@@ -1,0 +1,261 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --navy:        #0d1f4e;
+  --navy-dark:   #091540;
+  --navy-mid:    #162660;
+  --gold:        #c9a84c;
+  --gold-light:  #e2c070;
+  --white:       #ffffff;
+  --off-white:   #f0f3f9;
+  --text-muted:  #6b7a9a;
+  --card-shadow: 0 8px 32px rgba(13,31,78,0.10);
+  --font:        'Inter', sans-serif;
+}
+
+body {
+  font-family: var(--font);
+  background-color: var(--off-white);
+  color: var(--navy);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.register-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 2rem 1rem 1rem;
+  z-index: 2;
+  margin-top: 2vh;
+}
+
+.register-header-outside {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.register-title-outside {
+  font-family: var(--font);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.portal-sub-outside {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  margin-top: 0.2rem;
+}
+
+.register-card {
+  max-width: 680px;
+  width: 100%;
+  background: var(--white);
+  border-radius: 24px;
+  box-shadow: 10px 10px 0px rgba(13, 31, 78, 0.12);
+  padding: 2rem 2rem;
+}
+
+.register-welcome {
+  text-align: center;
+  margin-bottom: 1.8rem;
+}
+
+.welcome-text {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 0.25rem;
+}
+
+.signin-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.form-row {
+  display: flex;
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.form-row.two-col .form-group {
+  flex: 1;
+  min-width: 180px;
+}
+
+.form-group.full-width {
+  width: 100%;
+  margin-bottom: 1.2rem;
+}
+
+.form-group {
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 0.4rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: var(--font);
+  font-size: 0.9rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  background: var(--white);
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.2);
+}
+
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill:hover,
+.form-group input:-webkit-autofill:focus,
+.form-group input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--white) inset !important;
+  box-shadow: 0 0 0 1000px var(--white) inset !important;
+  -webkit-text-fill-color: var(--navy) !important;
+  caret-color: var(--navy);
+  border-color: #e2e8f0;
+}
+
+.form-group input:autofill {
+  background-color: var(--white) !important;
+  color: var(--navy) !important;
+}
+
+.spacer {
+  height: 1rem;
+}
+
+.password-row {
+  margin-top: 0.5rem;
+}
+
+.btn {
+  display: inline-block;
+  font-family: var(--font);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 0.75rem 1.8rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  text-align: center;
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: var(--navy-dark);
+  box-shadow: 0 2px 12px rgba(201,168,76,0.30);
+}
+
+.btn-primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(201,168,76,0.40);
+}
+
+.form-actions {
+  margin-top: 1.8rem;
+}
+
+.login-prompt {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.login-prompt .btn-link {
+  background: none;
+  border: none;
+  color: var(--navy);
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 0.85rem;
+  border-bottom: 1px dashed var(--gold);
+  margin-left: 0.3rem;
+}
+
+.login-prompt .btn-link:hover {
+  color: var(--gold);
+}
+
+.register-skyline {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.skyline-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  opacity: 0.95;
+}
+
+@media (max-width: 680px) {
+  .register-card {
+    max-width: 94%;
+    padding: 1.5rem;
+  }
+  .register-wrapper {
+    margin-top: 1vh;
+  }
+  .register-title-outside {
+    font-size: 1.5rem;
+  }
+  .portal-sub-outside {
+    font-size: 0.7rem;
+  }
+  .welcome-text {
+    font-size: 1.1rem;
+  }
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  .form-group.full-width {
+    margin-bottom: 1rem;
+  }
+}

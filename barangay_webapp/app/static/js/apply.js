@@ -1,5 +1,3 @@
-// apply.js – form handling, tracking code generation, file upload, success message below form
-
 document.addEventListener('DOMContentLoaded', function() {
   const form = document.getElementById('certificateForm');
   const successMessageDiv = document.getElementById('successMessage');
@@ -13,7 +11,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
   let selectedFile = null;
 
-  // ---- FILE UPLOAD HANDLING ----
+  function showFileError(message) {
+    const existingError = document.querySelector('.file-upload-error');
+    if (existingError) existingError.remove();
+
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'file-upload-error';
+    errorDiv.style.color = '#991b1b';
+    errorDiv.style.fontSize = '0.7rem';
+    errorDiv.style.marginTop = '0.5rem';
+    errorDiv.style.textAlign = 'center';
+    errorDiv.innerText = message;
+    uploadArea.parentNode.appendChild(errorDiv);
+
+    setTimeout(() => {
+      if (errorDiv && errorDiv.remove) errorDiv.remove();
+    }, 4000);
+  }
+
   uploadArea.addEventListener('click', (e) => {
     if (e.target.closest('.remove-file')) return;
     fileInput.click();
@@ -23,6 +38,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (fileInput.files.length) {
       selectedFile = fileInput.files[0];
       updateFilePreview(selectedFile.name);
+      const existingError = document.querySelector('.file-upload-error');
+      if (existingError) existingError.remove();
     }
   });
 
@@ -44,7 +61,6 @@ document.addEventListener('DOMContentLoaded', function() {
     resetFileUpload();
   });
 
-  // Drag & drop
   uploadArea.addEventListener('dragover', (e) => {
     e.preventDefault();
     uploadArea.style.borderColor = 'var(--gold)';
@@ -60,10 +76,11 @@ document.addEventListener('DOMContentLoaded', function() {
       selectedFile = files[0];
       updateFilePreview(selectedFile.name);
       fileInput.files = files;
+      const existingError = document.querySelector('.file-upload-error');
+      if (existingError) existingError.remove();
     }
   });
 
-  // ---- TRACKING CODE GENERATION ----
   function generateTrackingCode() {
     const now = new Date();
     const year = now.getFullYear();
@@ -73,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function() {
     return `BRGY-${year}-${month}-${day}-${random}`;
   }
 
-  // ---- FORM SUBMIT ----
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -82,13 +98,16 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
+    if (!selectedFile) {
+      showFileError('Please upload a required document (PDF or image, max 5MB).');
+      return;
+    }
+
     const trackingCode = generateTrackingCode();
     trackingCodeSpan.textContent = trackingCode;
 
-    // Show success message below form (do NOT hide the form)
     successMessageDiv.classList.remove('hidden');
 
-    // Store submission in localStorage for tracking page
     const submission = {
       trackingCode,
       firstName: document.getElementById('firstName').value,
@@ -100,21 +119,19 @@ document.addEventListener('DOMContentLoaded', function() {
     submissions.push(submission);
     localStorage.setItem('barangay_applications', JSON.stringify(submissions));
 
-    // Reset the form fields and file upload for a new application
     form.reset();
     resetFileUpload();
 
-    // Optional: scroll success message into view
     successMessageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
 
-  // ---- CANCEL BUTTON ----
   cancelBtn.addEventListener('click', () => {
     if (confirm('Cancel application? All entered data will be lost.')) {
       form.reset();
       resetFileUpload();
-      // Also hide success message if visible
       successMessageDiv.classList.add('hidden');
+      const existingError = document.querySelector('.file-upload-error');
+      if (existingError) existingError.remove();
     }
   });
 });

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Barangay AINS – Resident Registration</title>
+  <link rel="stylesheet" href="../../static/css/user_register.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <div class="register-wrapper">
+    <div class="register-header-outside">
+      <h1 class="register-title-outside">Barangay AINS</h1>
+      <p class="portal-sub-outside">OFFICIAL RESIDENT PORTAL</p>
+    </div>
+
+    <div class="register-card">
+      <div class="register-welcome">
+        <p class="welcome-text">Create an Account</p>
+        <p class="signin-text">Register to access barangay services</p>
+      </div>
+
+      <form id="registerForm">
+        <div class="form-row two-col">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" required />
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" required />
+          </div>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+
+        <div class="form-group full-width">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" required />
+        </div>
+
+        <div class="form-row two-col">
+          <div class="form-group">
+            <label for="house">House Number</label>
+            <input type="text" id="house" name="house" required />
+          </div>
+          <div class="form-group">
+            <label for="street">Street</label>
+            <input type="text" id="street" name="street" required />
+          </div>
+        </div>
+
+        <div class="form-row two-col">
+          <div class="form-group">
+            <label for="barangay">Barangay</label>
+            <input type="text" id="barangay" name="barangay" value="AINS" required />
+          </div>
+          <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" id="city" name="city" value="Makati" required />
+          </div>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="form-row two-col password-row">
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+
+        <div class="login-prompt">
+          <span>Already have an account?</span>
+          <button type="button" id="loginBtn" class="btn-link">Sign in</button>
+        </div>
+
+        <input type="hidden" id="redirectAfterRegister" value="../../templates/user/user_login.html" />
+      </form>
+    </div>
+  </div>
+
+  <div class="register-skyline">
+    <picture>
+      <source srcset="../../static/images/user_background2.png" type="image/png">
+      <img class="skyline-img" 
+           src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 160'%3E%3Crect width='1440' height='160' fill='%230d1f4e'/%3E%3Cpath fill='%231a2e6e' d='M0,160 L0,110 L60,110 L60,80 L110,80 L110,50 L150,50 L150,90 L200,90 L200,40 L240,40 L240,100 L290,100 L290,30 L330,30 L330,120 L380,120 L380,60 L430,60 L430,130 L480,130 L480,20 L530,20 L530,140 L580,140 L580,70 L630,70 L630,110 L680,110 L680,45 L730,45 L730,125 L780,125 L780,55 L830,55 L830,95 L880,95 L880,35 L930,35 L930,115 L980,115 L980,65 L1030,65 L1030,105 L1080,105 L1080,25 L1130,25 L1130,135 L1180,135 L1180,75 L1230,75 L1230,150 L1280,150 L1280,10 L1330,10 L1330,90 L1380,90 L1380,50 L1440,50 L1440,160 Z'/%3E%3C/svg%3E"
+           alt="Blue City Skyline - user_background2">
+    </picture>
+  </div>
+
+  <script src="../../static/js/user_register.js"></script>
+</body>
+</html>

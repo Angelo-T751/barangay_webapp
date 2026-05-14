@@ -17,7 +17,17 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="apply.html" class="active">Apply</a></li>
       <li><a href="track.html">Track</a></li>
-      <li><a href="admin.html" class="nav-admin">Admin</a></li>
+      <li class="nav-notification">
+        <button class="notif-btn" id="notifBtn">
+          <svg class="bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+          </svg>
+        </button>
+      </li>
+      <li class="nav-logout">
+        <a href="./user_login.html" class="logout-btn">Logout</a>
+      </li>
     </ul>
   </nav>
 
@@ -27,7 +37,6 @@
       <p class="apply-subtitle">Fill out the form below. All fields are required.</p>
 
       <form id="certificateForm">
-        <!-- Personal Information -->
         <fieldset class="form-section">
           <legend>Personal Information</legend>
           <div class="form-row two-col">
@@ -72,7 +81,6 @@
           </div>
         </fieldset>
 
-        <!-- Certificate Details -->
         <fieldset class="form-section">
           <legend>Certificate Details</legend>
           <div class="form-group">
@@ -117,7 +125,6 @@
         </div>
       </form>
 
-      <!-- Success message (appears below form after submit) -->
       <div id="successMessage" class="success-message hidden">
         <div class="success-title">Application submitted successfully!</div>
         <div class="success-tracking">Your Tracking Code: <span id="trackingCodeDisplay"></span></div>
@@ -127,5 +134,13 @@
   </main>
 
   <script src="apply.js"></script>
+  <script>
+    const notifBtn = document.getElementById('notifBtn');
+    if (notifBtn) {
+      notifBtn.addEventListener('click', () => {
+        alert('You have new notifications.');
+      });
+    }
+  </script>
 </body>
 </html>
