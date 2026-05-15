@@ -71,7 +71,7 @@ env
     DB_PASSWORD=your_database_password
     DB_HOST=localhost
     DB_PORT=3306
-    DB_NAME=barangay_db
+    DB_NAME=barangay_ains
 
     SECRET_KEY=your-secure-secret-key-here
 
@@ -89,12 +89,12 @@ env
 Log in to MariaDB/MySQL and create the database:
 sql
 
-    CREATE DATABASE IF NOT EXISTS barangay_db;
+    CREATE DATABASE IF NOT EXISTS barangay_ains;
 
 Or via command line:
 bash
 
-    mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS barangay_db;"
+    mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS barangay_ains;"
 
 ### Step 7: Initialize Database Tables
 bash
