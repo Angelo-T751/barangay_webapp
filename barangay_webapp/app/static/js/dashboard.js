@@ -2,30 +2,30 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedStatus = null;
     let currentAppId = null;
 
-    // --- CONNECTION: Load Global Statuses ---
+
     let appStatuses = JSON.parse(localStorage.getItem('appStatuses')) || {};
 
-    // 1. LOAD SAVED DATA COUNTS
+
     let pendingCount = parseInt(localStorage.getItem('pendingCount')) || 3;
     let approvedCount = parseInt(localStorage.getItem('approvedCount')) || 0;
     let rejectedCount = parseInt(localStorage.getItem('rejectedCount')) || 0;
     
     let processedIds = JSON.parse(localStorage.getItem('processedIds')) || [];
 
-    // --- FIX: ITAGO (HIDE) ANG ROW KUNG NA-PROCESS NA ---
+
     const allRows = document.querySelectorAll('[id^="row-"]');
     
     allRows.forEach(row => {
         const id = row.id.replace('row-', ''); 
         let stat = appStatuses[id]; 
         
-        // Kung Approved, Rejected, o nasa processed list, itago yung row sa Dashboard
+
         if ((stat && stat !== 'Pending') || processedIds.includes(id)) {
             row.style.display = 'none';
         }
     });
 
-    // --- NEW: FUNCTION TO CHECK EMPTY STATE ---
+
     window.checkRecentApplicants = function() {
         const container = document.getElementById('applicantsContainer');
         const emptyMsg = document.getElementById('noApplicantsMsg');
@@ -34,18 +34,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const rows = container.querySelectorAll('.applicant-row');
         let hasVisibleRows = false;
         
-        // Check if there are any rows that are NOT hidden
+
         rows.forEach(row => {
             if (row.style.display !== 'none') {
                 hasVisibleRows = true;
             }
         });
 
-        // Show empty message if no rows are visible
+
         emptyMsg.style.display = hasVisibleRows ? 'none' : 'block';
     };
 
-    // Trigger on page load
+
     window.checkRecentApplicants();
 
     window.openLogoutModal = function(event) {
@@ -151,13 +151,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const modalCard = document.getElementById('modalCard');
             if(modalCard) modalCard.classList.remove('shake-error', 'error-stroke');
 
-            // --- SAVE GLOBALLY ---
+        
             appStatuses[currentAppId] = selectedStatus;
             localStorage.setItem('appStatuses', JSON.stringify(appStatuses));
 
             const row = document.getElementById('row-' + currentAppId);
             if (row) {
-                // --- FIX: TANGGALIN NA YUNG ROW SA DASHBOARD ---
+  
                 row.remove();
                 
                 if (!processedIds.includes(currentAppId)) {
@@ -166,7 +166,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             
-            // --- NEW: TRIGGER EMPTY STATE CHECK AFTER ROW IS REMOVED ---
             window.checkRecentApplicants();
             
             pendingCount = Math.max(0, pendingCount - 1);
@@ -190,6 +189,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Trigger UI Update upon load
     window.updateStatsUI();
 });
