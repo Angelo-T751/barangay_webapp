@@ -97,11 +97,18 @@ def apply():
             errors.append("Please provide a meaningful purpose (no gibberish, excessive repeating characters).")
             
         # Handle File Upload
-        file = request.files.get('document')
-        saved_filename, file_error = save_proof_document(file, current_user.user_uuid)
+        files = request.files.getlist('document')
+        if not files or all(f.filename == '' for f in files):
+            errors.append("Please upload the required document(s).")
         
-        if file_error:
-            errors.append(file_error)
+        saved_files = []
+        for file in files:
+            if file and file.filename != '':
+                saved_filename, file_error = save_proof_document(file, current_user.user_uuid)
+                if file_error:
+                    errors.append(file_error)
+                else:
+                    saved_files.append((file, saved_filename))
 
         if errors:
             return render_template('user/apply.html', errors=errors, user=current_user)
@@ -128,18 +135,21 @@ def apply():
         db.session.add(new_application)
         db.session.flush() # Flush to grab the fresh new_application.id
         
-        # 4. Save the Document Metadata record
-        file_size = os.path.getsize(os.path.join(current_app.root_path, 'static', 'uploads', 'proofs', saved_filename))
-        mime_type = file.mimetype if hasattr(file, 'mimetype') else 'application/octet-stream'
-        
-        new_document = ApplicationDocument(
-            application_id=new_application.id,
-            document_name=file.filename,
-            document_path=f"uploads/proofs/{saved_filename}",
-            file_size=file_size,
-            mime_type=mime_type
-        )
-        db.session.add(new_document)
+        # 4. Save the Document Metadata records
+        print(f"\n[UPLOAD SUCCESS] Saving files for Tracking Code: {tracking_code}")
+        for file, saved_filename in saved_files:
+            file_size = os.path.getsize(os.path.join(current_app.root_path, 'static', 'uploads', 'proofs', saved_filename))
+            mime_type = file.mimetype if hasattr(file, 'mimetype') else 'application/octet-stream'
+            
+            new_document = ApplicationDocument(
+                application_id=new_application.id,
+                document_name=file.filename,
+                document_path=f"uploads/proofs/{saved_filename}",
+                file_size=file_size,
+                mime_type=mime_type
+            )
+            db.session.add(new_document)
+            print(f" -> Attached: {file.filename}")
         db.session.commit()
             
         return render_template('user/apply.html', user=current_user, tracking_code=tracking_code)
@@ -184,7 +194,7 @@ def api_track():
         return jsonify({"error": "Application not found"}), 404
         
     user = User.query.get(app.user_id)
-    doc = ApplicationDocument.query.filter_by(application_id=app.id).first()
+    docs = ApplicationDocument.query.filter_by(application_id=app.id).all()
     cert_type = CertificateType.query.get(app.certificate_type_id)
     
     print(f"[API TRACK] SUCCESS: Found application {app.tracking_code}")
@@ -203,6 +213,6 @@ def api_track():
         "certType": cert_type.type_name if cert_type else "N/A",
         "purpose": app.purpose,
         "submittedAt": app.submitted_at.isoformat() if app.submitted_at else None,
-        "fileName": doc.document_name if doc else None,
+        "files": [{"name": d.document_name, "path": d.document_path} for d in docs] if docs else [],
         "remarks": getattr(app, 'remarks', None)
     })

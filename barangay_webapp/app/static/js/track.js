@@ -17,8 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const dateSubmittedSpan = document.getElementById('dateSubmitted');
   const remarksSection = document.getElementById('remarksSection');
   const remarksText = document.getElementById('remarksText');
-  const downloadSection = document.getElementById('downloadSection');
-  const downloadBtn = document.getElementById('downloadBtn');
 
   function formatDate(dateString) {
     if (!dateString) return 'N/A';
@@ -74,14 +72,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
 
-    if (downloadSection) {
-      if (status.toLowerCase() === 'approved') {
-        downloadSection.classList.remove('hidden');
-      } else {
-        downloadSection.classList.add('hidden');
-      }
-    }
-
     if (resultCard) resultCard.classList.remove('hidden');
     if (noResultCard) noResultCard.classList.add('hidden');
   }
@@ -124,10 +114,4 @@ document.addEventListener('DOMContentLoaded', function() {
   if (searchBtn) searchBtn.addEventListener('click', searchApplication);
   if (trackingInput) trackingInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') searchApplication(e); });
   if (trackAnotherBtns) trackAnotherBtns.forEach(btn => btn.addEventListener('click', resetToSearch));
-
-  if (downloadBtn) {
-    downloadBtn.addEventListener('click', () => {
-      alert('Your certificate is ready! Secure file download will be available shortly.');
-    });
-  }
 });
