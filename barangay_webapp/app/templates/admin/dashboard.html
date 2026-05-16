@@ -141,19 +141,6 @@
                             <textarea id="adminNote" placeholder="Enter reason or instructions..." style="width: 100%; height: 95px; resize: none;"></textarea>
                         </div>
                         
-                        <div class="upload-container" id="uploadBox">
-                            <label>Attach Certificate:</label>
-                            <div class="drop-zone" onclick="document.getElementById('fileInput').click()" style="border: 2px dashed var(--navy); background: #f0f7ff;">
-                                <div id="plusBtn" class="plus-icon" style="font-size: 14px; font-weight: 800; text-align: center; color: var(--navy);">
-                                    <div style="font-size: 24px;">📄</div> UPLOAD FILE
-                                </div>
-                                <div id="filePreview" class="file-success-view" style="display: none;">
-                                    <span id="fileNameDisplay"></span>
-                                    <span class="change-file-btn">Change File</span>
-                                </div>
-                            </div>
-                            <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelect()">
-                        </div>
                     </div>
 
                     <button class="save-btn" id="updateAppBtn" onclick="validateAndUpdate()">Update Application</button>

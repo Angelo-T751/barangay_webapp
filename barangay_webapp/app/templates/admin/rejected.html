@@ -92,20 +92,11 @@
                 </div>
 
                 <div class="admin-note-wrapper">
-                    <div class="admin-note-col">
-                        <label class="admin-label-styled">ADMIN NOTE (UPDATE):</label>
-                        <textarea id="adminNote" placeholder="Enter reason for status change..."></textarea>
-                    </div>
-                    
-                    <div class="attach-file-col" id="uploadCol" style="display: none;">
-                        <label class="admin-label-styled">ATTACH CERT:</label>
-                        <div class="drop-zone-mini" onclick="document.getElementById('fileInput').click()">
-                            <i class="fa-solid fa-cloud-arrow-up file-icon-gray"></i>
-                            <span id="fileNameDisplay">Upload File</span>
-                            <input type="file" id="fileInput" hidden onchange="handleFileSelect(this)">
-                        </div>
-                    </div>
-                </div>
+    <div class="admin-note-col" style="flex: 1;">
+        <label class="admin-label-styled">ADMIN NOTE (UPDATE):</label>
+        <textarea id="adminNote" placeholder="Enter reason for status change..."></textarea>
+    </div>
+</div>
 
                 <button class="update-app-btn" onclick="validateAndUpdate()">Save Changes</button>
                 <p id="errorMessage" style="color:#FF4F4F; text-align:center; font-size:12px; font-weight:800; margin-top:10px; display:none;"></p>

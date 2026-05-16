@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('searchInput');
     let currentAppId = null;
     let selectedStatus = null;
-    let attachedFile = null; // Added for file tracking
 
     function renderTable(searchTerm = "") {
         applicantList.innerHTML = "";
@@ -64,11 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('m-date').value = app.date;
         document.getElementById('m-type').value = app.type;
 
-        // Reset File State
-        attachedFile = null;
-        document.getElementById('fileNameDisplay').innerText = "Upload File";
-        document.getElementById('uploadCol').style.display = 'none';
-
         selectedStatus = "Rejected"; 
         document.getElementById('modal-status-text').innerText = "REJECTED";
         document.getElementById('modal-status-text').style.color = "#dc2626";
@@ -88,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.selectStatus = (status) => {
         selectedStatus = status;
         const statusText = document.getElementById('modal-status-text');
-        const uploadCol = document.getElementById('uploadCol'); // Triggered upload column
         
         document.getElementById('modalCard').classList.remove('error-stroke');
         document.getElementById('errorMessage').style.display = 'none';
@@ -97,23 +90,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if(status === 'Pending') {
             statusText.style.color = "#D9A420";
-            uploadCol.style.display = 'none';
         }
         if(status === 'Approved') {
             statusText.style.color = "#059669";
-            uploadCol.style.display = 'flex'; // Show upload when switching to Approved
         }
         if(status === 'Rejected') {
             statusText.style.color = "#dc2626";
-            uploadCol.style.display = 'none';
-        }
-    };
-
-    // Handle File Selection
-    window.handleFileSelect = (input) => {
-        if (input.files && input.files[0]) {
-            attachedFile = input.files[0].name;
-            document.getElementById('fileNameDisplay').innerText = attachedFile;
         }
     };
 
@@ -135,12 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const note = document.getElementById('adminNote').value.trim();
         if(note === "") {
             triggerError("Admin Note is required to change status!");
-            return;
-        }
-
-        // Added Logic: Check for file if moving to Approved
-        if(selectedStatus === "Approved" && !attachedFile) {
-            triggerError("Please attach the certificate file for approval!");
             return;
         }
 

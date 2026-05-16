@@ -6,13 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     let appStatuses = JSON.parse(localStorage.getItem('appStatuses')) || {};
-    let approvedFiles = JSON.parse(localStorage.getItem('approvedFiles')) || {}; // Connected storage for files
 
     const applicantList = document.getElementById('applicantList');
     const searchInput = document.getElementById('searchInput');
     let currentAppId = null;
     let selectedStatus = null;
-    let replacementFile = null; // To track new file selection
 
     function renderTable(searchTerm = "") {
         applicantList.innerHTML = "";
@@ -26,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
             applicantList.innerHTML = `
                 <div class="no-results-msg">
                     <i class="fa-solid fa-folder-open" style="font-size: 24px; color: #cbd5e1; display: block; margin-bottom: 8px;"></i>
-                    No rejected applicants found!
+                    No approved applicants found!
                 </div>`;
             return;
         }
@@ -57,19 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('m-date').value = app.date;
         document.getElementById('m-type').value = app.type;
 
-        // LOAD CURRENT FILE
-        const existingFile = approvedFiles[id] || "No certificate found";
-        document.getElementById('displayExistingFile').innerText = existingFile;
-
         // Reset edit UI
-        replacementFile = null;
-        document.getElementById('fileNameDisplay').innerText = "Replace File";
         document.getElementById('adminNote').value = "";
         
         selectedStatus = "Approved"; 
         document.getElementById('modal-status-text').innerText = "APPROVED";
         document.getElementById('modal-status-text').style.color = "#059669";
-        document.getElementById('uploadCol').style.display = 'block';
 
         const modal = document.getElementById('modalOverlay');
         modal.style.display = 'flex';
@@ -79,17 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('modalSuccess').style.display = 'none';
     };
 
-    window.handleFileSelect = (input) => {
-        if (input.files && input.files[0]) {
-            replacementFile = input.files[0].name;
-            document.getElementById('fileNameDisplay').innerText = replacementFile;
-        }
-    };
-
     window.selectStatus = (status) => {
         selectedStatus = status;
         const statusText = document.getElementById('modal-status-text');
-        const uploadCol = document.getElementById('uploadCol');
         
         document.getElementById('modalCard').classList.remove('error-stroke');
         document.getElementById('errorMessage').style.display = 'none';
@@ -97,13 +80,10 @@ document.addEventListener('DOMContentLoaded', () => {
         statusText.innerText = status.toUpperCase();
         if(status === 'Pending') {
             statusText.style.color = "#D9A420";
-            uploadCol.style.display = 'none';
         } else if(status === 'Rejected') {
             statusText.style.color = "#dc2626";
-            uploadCol.style.display = 'none';
         } else {
             statusText.style.color = "#059669";
-            uploadCol.style.display = 'block';
         }
     };
 
@@ -126,12 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // UPDATE STATUS
         appStatuses[currentAppId] = selectedStatus;
         localStorage.setItem('appStatuses', JSON.stringify(appStatuses));
-
-        // UPDATE FILE STORAGE IF NEW FILE UPLOADED
-        if (selectedStatus === "Approved" && replacementFile) {
-            approvedFiles[currentAppId] = replacementFile;
-            localStorage.setItem('approvedFiles', JSON.stringify(approvedFiles));
-        }
 
         // RECALCULATE COUNTS
         let pending = 0, approved = 0, rejected = 0;
