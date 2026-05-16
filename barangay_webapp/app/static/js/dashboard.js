@@ -85,12 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('modal-status-text').innerText = "Pending";
         document.getElementById('modal-status-text').className = "status-display pending";
         
-        document.getElementById('fileInput').value = ""; 
-        if(document.getElementById('fileNameDisplay')) document.getElementById('fileNameDisplay').innerText = "UPLOAD FILE";
-        document.getElementById('filePreview').style.display = 'none';
-        document.getElementById('plusBtn').style.display = 'block';
-        document.getElementById('uploadBox').style.display = 'none';
-        
         document.getElementById('modalOverlay').style.display = 'flex';
         document.getElementById('contentBlur').classList.add('blurred');
     }
@@ -113,31 +107,10 @@ document.addEventListener('DOMContentLoaded', () => {
         msg.style.color = (choice === 'Approved') ? '#065F46' : '#FF4F4F';
         statusDisplay.innerText = choice;
         statusDisplay.className = 'status-display ' + choice.toLowerCase();
-        document.getElementById('uploadBox').style.display = (choice === 'Approved') ? 'flex' : 'none';
-    }
-
-    window.handleFileSelect = function() {
-        const fileInput = document.getElementById('fileInput');
-        const file = fileInput.files[0];
-        
-        if (file) {
-            if(document.getElementById('fileNameDisplay')) document.getElementById('fileNameDisplay').innerText = file.name;
-            document.getElementById('filePreview').style.display = 'flex';
-            document.getElementById('plusBtn').style.display = 'none';
-            
-            document.getElementById('errorMessage').style.display = 'none';
-            const modalCard = document.getElementById('modalCard');
-            if(modalCard) modalCard.classList.remove('shake-error', 'error-stroke');
-        } else {
-            if(document.getElementById('fileNameDisplay')) document.getElementById('fileNameDisplay').innerText = "UPLOAD FILE";
-            document.getElementById('filePreview').style.display = 'none';
-            document.getElementById('plusBtn').style.display = 'block';
-        }
     }
 
     window.validateAndUpdate = function() {
         const note = document.getElementById('adminNote').value.trim();
-        const file = document.getElementById('fileInput').files[0];
         
         let isValid = false;
         let errorMsg = "";
@@ -146,8 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
             errorMsg = "Please select a status (APPROVE/REJECT).";
         } else if (note === "") {
             errorMsg = "Admin note is required.";
-        } else if (selectedStatus === 'Approved' && !file) {
-            errorMsg = "Please attach the certificate file before approving.";
         } else {
             isValid = true;
         }

@@ -146,21 +146,12 @@ body {
 
 .admin-note-wrapper { display: flex; gap: 10px; align-items: stretch; margin-top: 5px; }
 .admin-note-col { flex: 1; display: flex; flex-direction: column; gap: 5px; }
-.attach-file-col { width: 160px; display: flex; flex-direction: column; gap: 5px; }
 
 .admin-label-styled { font-size: 10px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; }
 .admin-note-col textarea { 
     flex: 1; border: 1px solid var(--border-light); border-radius: 10px; padding: 10px; 
     font-size: 12px; font-weight: 500; color: var(--text-dark); resize: none; min-height: 80px;
 }
-
-.drop-zone-mini { 
-    flex: 1; border: 2px dashed var(--navy); border-radius: 10px; background: #f8fafc;
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer; transition: 0.3s; padding: 5px;
-}
-.file-icon-gray { font-size: 18px; color: #cbd5e1; transition: 0.3s; }
-.drop-zone-mini span#fileNameDisplay { font-size: 11px; font-weight: 800; color: var(--navy); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.drop-zone-mini:hover { background: #e2e8f0; }
 
 .update-app-btn { 
     width: 100%; background: var(--navy); color: white; border: none; 

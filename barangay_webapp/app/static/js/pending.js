@@ -86,19 +86,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const modalActions = document.getElementById('modalActionButtons');
         const statusText = document.getElementById('modal-status-text');
         const statusDivider = document.getElementById('statusDivider');
-        const fileIcon = document.getElementById('fileIcon');
-        const changeHint = document.getElementById('changeFileHint');
 
         selectedStatus = null;
         document.getElementById('adminNote').value = "";
-        document.getElementById('uploadSection').style.display = "none";
         document.getElementById('adminNoteLabel').innerHTML = 'ADMIN NOTE:';
-        
-        document.getElementById('fileInput').value = ""; 
-        document.getElementById('fileNameDisplay').innerText = "UPLOAD FILE"; 
-        fileIcon.className = "fa-solid fa-file-lines file-icon-gray";
-        fileIcon.style.color = "";
-        changeHint.style.display = "none";
         
         document.getElementById('modalCard').classList.remove('error-stroke');
         document.getElementById('errorMessage').style.display = 'none';
@@ -135,7 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.selectStatus = (status) => {
         selectedStatus = status;
         const statusText = document.getElementById('modal-status-text');
-        const uploadBox = document.getElementById('uploadSection');
         const label = document.getElementById('adminNoteLabel');
         
         document.getElementById('modalCard').classList.remove('error-stroke');
@@ -145,32 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if(status === 'Approved') {
             statusText.style.color = "#0F2D57"; 
-            uploadBox.style.display = "flex"; 
             label.innerHTML = 'ADMIN NOTE:<br><span style="color:#059669; font-size:10px; font-weight:800; text-transform:uppercase;">Action: APPROVED</span>';
         } else {
             statusText.style.color = "#0F2D57";
-            uploadBox.style.display = "none";
             label.innerHTML = 'ADMIN NOTE:<br><span style="color:#dc2626; font-size:10px; font-weight:800; text-transform:uppercase;">Action: REJECTED</span>';
-        }
-    };
-
-    window.handleFileSelect = (input) => {
-        const icon = document.getElementById('fileIcon');
-        const changeHint = document.getElementById('changeFileHint');
-
-        if (input.files && input.files.length > 0) {
-            document.getElementById('fileNameDisplay').innerText = input.files[0].name;
-            icon.className = "fa-solid fa-file-circle-check";
-            icon.style.color = "#4ade80";
-            changeHint.style.display = "block";
-
-            document.getElementById('modalCard').classList.remove('error-stroke');
-            document.getElementById('errorMessage').style.display = 'none';
-        } else {
-            document.getElementById('fileNameDisplay').innerText = "UPLOAD FILE";
-            icon.className = "fa-solid fa-file-lines file-icon-gray";
-            icon.style.color = "";
-            changeHint.style.display = "none";
         }
     };
 
@@ -186,13 +154,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.validateAndUpdate = () => {
         const note = document.getElementById('adminNote').value.trim();
-        const fileInput = document.getElementById('fileInput');
 
         let missingFields = [];
 
         if(!selectedStatus) missingFields.push("Status");
         if(note === "") missingFields.push("Admin Note");
-        if(selectedStatus === 'Approved' && (!fileInput.files || fileInput.files.length === 0)) missingFields.push("Certificate File");
 
         if(missingFields.length > 0) {
             let errorText = missingFields.length === 1 ? 
