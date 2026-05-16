@@ -25,6 +25,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // --- NEW: FUNCTION TO CHECK EMPTY STATE ---
+    window.checkRecentApplicants = function() {
+        const container = document.getElementById('applicantsContainer');
+        const emptyMsg = document.getElementById('noApplicantsMsg');
+        if (!container || !emptyMsg) return;
+
+        const rows = container.querySelectorAll('.applicant-row');
+        let hasVisibleRows = false;
+        
+        // Check if there are any rows that are NOT hidden
+        rows.forEach(row => {
+            if (row.style.display !== 'none') {
+                hasVisibleRows = true;
+            }
+        });
+
+        // Show empty message if no rows are visible
+        emptyMsg.style.display = hasVisibleRows ? 'none' : 'block';
+    };
+
+    // Trigger on page load
+    window.checkRecentApplicants();
+
     window.openLogoutModal = function(event) {
         event.preventDefault();
         document.getElementById('logoutModalOverlay').style.display = 'flex';
@@ -142,6 +165,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('processedIds', JSON.stringify(processedIds));
                 }
             }
+            
+            // --- NEW: TRIGGER EMPTY STATE CHECK AFTER ROW IS REMOVED ---
+            window.checkRecentApplicants();
             
             pendingCount = Math.max(0, pendingCount - 1);
             if (selectedStatus === 'Approved') approvedCount++;
