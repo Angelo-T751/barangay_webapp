@@ -81,48 +81,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  function generateTrackingCode() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const random = Math.random().toString(36).substring(2, 6).toUpperCase();
-    return `BRGY-${year}-${month}-${day}-${random}`;
-  }
-
   form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
     if (!form.checkValidity()) {
+      e.preventDefault();
       form.reportValidity();
       return;
     }
 
     if (!selectedFile) {
-      showFileError('Please upload a required document (PDF or image, max 5MB).');
+      e.preventDefault();
+      showFileError('Please upload a required document (PDF or image, max 25MB).');
       return;
     }
-
-    const trackingCode = generateTrackingCode();
-    trackingCodeSpan.textContent = trackingCode;
-
-    successMessageDiv.classList.remove('hidden');
-
-    const submission = {
-      trackingCode,
-      firstName: document.getElementById('firstName').value,
-      lastName: document.getElementById('lastName').value,
-      certType: document.getElementById('certType').value,
-      submittedAt: new Date().toISOString()
-    };
-    let submissions = JSON.parse(localStorage.getItem('barangay_applications') || '[]');
-    submissions.push(submission);
-    localStorage.setItem('barangay_applications', JSON.stringify(submissions));
-
-    form.reset();
-    resetFileUpload();
-
-    successMessageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
 
   cancelBtn.addEventListener('click', () => {

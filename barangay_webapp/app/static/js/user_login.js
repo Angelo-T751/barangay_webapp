@@ -29,22 +29,27 @@
   }
 
   form.addEventListener('submit', (e) => {
-    e.preventDefault();
     const residentId = residentIdInput.value.trim();
     const password = passwordInput.value.trim();
 
     if (!residentId || !password) {
+      e.preventDefault(); // Only prevent form submission if fields are empty
       showFieldError('❌ Please enter both Resident ID and password.');
       return;
     }
 
-    const redirectUrl = redirectInput ? redirectInput.value : '../../templates/user/index.html';
-    window.location.href = redirectUrl;
+    // Ensure the form submits via POST to hide credentials from the URL
+    form.method = 'POST';
+    form.action = '/login';
+    
+    // Ensure the input names match what the Flask backend expects
+    residentIdInput.name = 'identifier';
+    passwordInput.name = 'password';
   });
 
   if (registerBtn) {
     registerBtn.addEventListener('click', () => {
-      window.location.href = "../../templates/user/user_register.html";
+      window.location.href = "/register";
     });
   }
 })();
