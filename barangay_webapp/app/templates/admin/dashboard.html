@@ -31,6 +31,13 @@
         <section class="recent-card" id="recentCard">
             <h2 class="card-title">RECENT APPLICANTS</h2>
             <div class="applicants-list" id="applicantsContainer">
+                
+                <div id="noApplicantsMsg" style="display: none; text-align: center; padding: 50px 20px;">
+                    <div style="font-size: 48px; margin-bottom: 10px;">📭</div>
+                    <h3 style="font-weight: 700; color: #0F2D57; margin-bottom: 5px;">No recent applicants</h3>
+                    <p style="color: #64748B; font-size: 14px; font-weight: 600;">You are all caught up!</p>
+                </div>
+
                 <div class="applicant-row unread" id="row-03" onclick="openModal('03', 'Maria Clara', 'Indigency Certificate')">
                     <span class="new-indicator"></span>
                     <span class="app-id">03</span>
@@ -140,7 +147,6 @@
                             <p id="selectionMsg" style="font-weight: 800; font-size: 10px; margin-bottom: 5px; height: 12px;"></p>
                             <textarea id="adminNote" placeholder="Enter reason or instructions..." style="width: 100%; height: 95px; resize: none;"></textarea>
                         </div>
-                        
                     </div>
 
                     <button class="save-btn" id="updateAppBtn" onclick="validateAndUpdate()">Update Application</button>
@@ -171,6 +177,7 @@
         </div>
     </div>
 
+    
     <script src="../../static/js/dashboard.js"></script>
 </body>
 </html>
