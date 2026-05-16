@@ -109,10 +109,21 @@
             <label for="purpose">Purpose / Reason</label>
             <textarea id="purpose" name="purpose" rows="3" placeholder="Why do you need this certificate?" minlength="5" maxlength="500" required></textarea>
           </div>
+          
+          <!-- Display Container for Certificate Requirements -->
+          <div id="certRequirements" style="display: none; margin-bottom: 15px; padding: 15px; background-color: #e9ecef; border-left: 4px solid #0d6efd; border-radius: 4px;">
+              <h5 style="margin-top: 0; margin-bottom: 10px; font-size: 1rem; color: #0d6efd; font-weight: bold;">
+                  Required Documents:
+              </h5>
+              <ul id="requirementsList" style="margin-bottom: 0; padding-left: 20px; font-size: 0.9rem; color: #495057;">
+                  <!-- Requirements will be injected here via JavaScript -->
+              </ul>
+          </div>
+
           <div class="form-group">
             <label>Required Documents (PDF or image, max 25MB)</label>
             <div class="upload-area" id="uploadArea">
-              <input type="file" id="fileInput" name="document" accept=".pdf,.jpg,.jpeg,.png,.heic" style="display: none;" />
+              <input type="file" id="fileInput" name="document" accept=".pdf,.jpg,.jpeg,.png,.heic" style="display: none;" multiple />
               <div class="upload-message">
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                   <path d="M12 16v-6m0 0-2 2m2-2 2 2M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
