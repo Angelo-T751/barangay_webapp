@@ -1,0 +1,31 @@
+//Paste this into your .env file, if env not exist, create one
+
+
+
+# ============================================
+# DATABASE CONFIGURATION
+# ============================================
+DB_USER=root
+DB_PASSWORD=
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=barangay_ains
+
+# ============================================
+# SECURITY
+# ============================================
+SECRET_KEY=90a7968eedccc0b3e58b62dc8af4284331aa858f54d2949644e09d5604f2fc28
+
+# ============================================
+# EMAIL CONFIGURATION (Gmail)
+# ============================================
+MAIL_SERVER=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USE_TLS=True
+MAIL_USERNAME=barangay.ains@gmail.com
+MAIL_PASSWORD=crgnbujvhwslgpwp
+
+# ============================================
+# PAYMENT CONFIGURATION (PayMongo)
+# ============================================
+PAYMONGO_SECRET_KEY=sk_test_U5mPFT84oDpwopQEgcs5ueCN
