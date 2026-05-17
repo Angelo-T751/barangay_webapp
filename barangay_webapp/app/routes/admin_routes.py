@@ -64,6 +64,29 @@ def add_admin_notification(title, message):
     save_admin_notifications(notifications[:50])
 
 
+def serialize_application(application):
+    """Convert an Application model into JSON-friendly dictionary data."""
+    user = application.user
+    cert_type = application.certificate_type
+    first_doc = application.documents[0] if application.documents else None
+    file_path = None
+    if first_doc and first_doc.document_path:
+        file_path = first_doc.document_path.replace('\\', '/')
+    return {
+        'id': application.id,
+        'tracking_code': application.tracking_code,
+        'applicant_name': f"{user.first_name} {user.last_name}" if user else 'Unknown',
+        'email': user.email if user else '',
+        'contact': user.phone if user else '',
+        'certificate_type': cert_type.type_name if cert_type else 'Unknown',
+        'purpose': application.purpose,
+        'status': application.status or 'pending',
+        'submitted_at': application.submitted_at.isoformat() if application.submitted_at else None,
+        'document_name': first_doc.document_name if first_doc else None,
+        'document_path': url_for('user.serve_document', filepath=file_path) if file_path else None,
+    }
+
+
 @admin_bp.route('/notifications', methods=['GET'])
 def admin_notifications():
     """Return the admin notification list as JSON."""
@@ -225,9 +248,66 @@ def admin_register():
     return render_template('admin/register.html', error=error, success=success)
 
 
+@admin_bp.route('/api/applications')
+def admin_applications_api():
+    """Return application data for admin pages."""
+    if not admin_required():
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    status = request.args.get('status', '').lower().strip()
+    query = Application.query.order_by(Application.submitted_at.desc())
+    if status in ('pending', 'approved', 'rejected'):
+        query = query.filter_by(status=status)
+
+    applications = query.all()
+    counts = {
+        'pending': Application.query.filter_by(status='pending').count(),
+        'approved': Application.query.filter_by(status='approved').count(),
+        'rejected': Application.query.filter_by(status='rejected').count()
+    }
+
+    return jsonify({
+        'applications': [serialize_application(app) for app in applications],
+        'counts': counts
+    })
+
+
 @admin_bp.route('/dashboard')
 def dashboard():
     """Render the admin dashboard only for logged-in admins."""
     if not admin_required():
         return redirect(url_for('admin.admin_login'))
-    return render_template('admin/dashboard.html')
+
+    pending_count = Application.query.filter_by(status='pending').count()
+    approved_count = Application.query.filter_by(status='approved').count()
+    rejected_count = Application.query.filter_by(status='rejected').count()
+    recent_applicants = Application.query.order_by(Application.submitted_at.desc()).limit(5).all()
+
+    return render_template(
+        'admin/dashboard.html',
+        pending_count=pending_count,
+        approved_count=approved_count,
+        rejected_count=rejected_count,
+        recent_applicants=recent_applicants
+    )
+
+
+@admin_bp.route('/pending')
+def pending():
+    if not admin_required():
+        return redirect(url_for('admin.admin_login'))
+    return render_template('admin/pending.html')
+
+
+@admin_bp.route('/approved')
+def approved():
+    if not admin_required():
+        return redirect(url_for('admin.admin_login'))
+    return render_template('admin/approved.html')
+
+
+@admin_bp.route('/rejected')
+def rejected():
+    if not admin_required():
+        return redirect(url_for('admin.admin_login'))
+    return render_template('admin/rejected.html')
