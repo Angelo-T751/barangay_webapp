@@ -43,17 +43,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (documentsListDiv) {
       documentsListDiv.innerHTML = '';
-      if (app.fileName) {
-        const docItem = document.createElement('div');
-        docItem.className = 'doc-item';
-        docItem.innerHTML = `
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px; margin-right:8px; vertical-align:middle;">
-            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
-            <polyline points="13 2 13 9 20 9"/>
-          </svg>
-          <span>${app.fileName}</span>
-        `;
-        documentsListDiv.appendChild(docItem);
+      if (app.files && app.files.length > 0) {
+        app.files.forEach(file => {
+          const docItem = document.createElement('div');
+          docItem.className = 'doc-item';
+          docItem.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px; margin-right:8px; vertical-align:middle;">
+              <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+              <polyline points="13 2 13 9 20 9"/>
+            </svg>
+            <a href="${file.path}" target="_blank" style="color: inherit; text-decoration: underline;">
+              <span>${file.name}</span>
+            </a>
+          `;
+          documentsListDiv.appendChild(docItem);
+        });
       } else {
         documentsListDiv.innerHTML = '<p class="text-muted">No documents uploaded</p>';
       }

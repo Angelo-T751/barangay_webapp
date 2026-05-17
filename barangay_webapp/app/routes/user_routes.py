@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, render_template_string, current_app, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, session, render_template_string, current_app, jsonify, send_from_directory
 from app.models.user import User
 from app.models.application import Application, CertificateType, ApplicationDocument
 from app.extensions import db
@@ -156,6 +156,12 @@ def apply():
         
     return render_template('user/apply.html', user=current_user)
 
+@user_bp.route('/document/<path:filepath>')
+def serve_document(filepath):
+    """Explicitly serve uploaded documents to bypass static folder configuration issues."""
+    directory = os.path.join(current_app.root_path, 'static')
+    return send_from_directory(directory, filepath)
+
 @user_bp.route('/track', methods=['GET', 'POST'])
 @user_bp.route('/track.html', methods=['GET', 'POST'])
 def track():
@@ -213,6 +219,6 @@ def api_track():
         "certType": cert_type.type_name if cert_type else "N/A",
         "purpose": app.purpose,
         "submittedAt": app.submitted_at.isoformat() if app.submitted_at else None,
-        "files": [{"name": d.document_name, "path": d.document_path} for d in docs] if docs else [],
+        "files": [{"name": d.document_name, "path": url_for('user.serve_document', filepath=d.document_path.replace('\\', '/'))} for d in docs] if docs else [],
         "remarks": getattr(app, 'remarks', None)
     })
