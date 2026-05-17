@@ -3,153 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pending Applications - Barangay AINS</title>
-    <link rel="stylesheet" href="../../static/css/pending.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>Barangay AINS - Admin Registration</title>
+    <link rel="stylesheet" href="../../static/css/register.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="fade-in">
-    <div class="stripe-bg"></div>
+<body>
+    <div class="bg-wrapper">
+        <img src="../../static/images/bg1.png" alt="Skyline" class="bg-silhouette">
+    </div>
 
-    <header class="header-bar">
-        <div class="brand">
-            <img src="../../static/images/logo.png" alt="Logo" class="brand-logo">
-            <h2 class="brand-text">Barangay AINS</h2>
-        </div>
-        <nav class="nav-links">
-            <a href="{{ url_for('admin.dashboard') }}" class="nav-btn">Dashboard</a>
-            <a href="{{ url_for('admin.pending') }}" class="nav-btn active">Applications</a>
-            <a href="#" class="nav-btn" onclick="openLogoutModal()">Logout</a>
-        </nav>
-    </header>
-
-    <main class="main-content" id="contentBlur">
-        <div class="zoom-container">
-            <div class="controls-container">
-                <div class="search-glass-card">
-                    <input type="text" id="searchInput" placeholder="Search applicant name, ID, or date...">
-                    <button id="clearSearch" class="clear-btn" onclick="clearSearchField()">&times;</button>
-                    <button id="searchBtn" class="search-btn-animated">Search</button>
-                </div>
-                
-                <div class="filter-tabs">
-                    <a href="{{ url_for('admin.pending') }}" class="filter-btn pending active">PENDING</a>
-                    <a href="{{ url_for('admin.approved') }}" class="filter-btn approved">APPROVED</a>
-                    <a href="{{ url_for('admin.rejected') }}" class="filter-btn rejected">REJECTED</a>
-                </div>
+    <div class="viewport-wrapper uniform-animation" id="mainWrapper">
+        <header class="system-header">
+            <div class="brand-row">
+                <img src="../../static/images/logo.png" alt="Logo" class="logo-img">
+                <h1 class="brand-name">Barangay AINS</h1>
             </div>
+            <p class="portal-tag">CREATE AN AUTHORIZED ADMINISTRATOR ACCOUNT</p>
+            <h2 class="page-title">ADMIN REGISTRATION</h2>
+        </header>
 
-            <div class="table-card">
-                <div class="table-header">
-                    <div>ID</div>
-                    <div>NAME</div>
-                    <div>TYPE</div>
-                    <div>PURPOSE</div>
-                    <div>DATE</div>
-                    <div style="text-align: right; padding-right: 35px;">ACTIONS</div>
-                </div>
-                <div id="applicantList"></div>
-            </div>
-        </div>
-    </main>
-
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal-card applicant-card" id="modalCard">
-            <button class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
-            
-            <div id="modalForm">
-                <h2 class="modal-main-title">Applicant Information</h2>
+        <main class="reg-card" id="regCard">
+            <h3 class="section-label">Personal Information</h3>
+            <form id="registerForm" novalidate>
                 
-                <div class="info-grid">
-                    <div class="info-group">
-                        <label>ID:</label>
-                        <input type="text" id="m-id" readonly>
+                <div class="form-grid tier-3">
+                    <div class="input-field">
+                        <label>First Name*</label>
+                        <input type="text" id="firstName">
+                        <span class="error-note" id="err-firstName">*First name is required</span>
                     </div>
-                    <div class="info-group">
-                        <label>DATE:</label>
-                        <input type="text" id="m-date" readonly>
+                    <div class="input-field">
+                        <label>M.I (Optional)</label>
+                        <input type="text" id="mi">
                     </div>
-                    <div class="info-group">
-                        <label>NAME:</label>
-                        <input type="text" id="m-name" readonly>
-                    </div>
-                    <div class="info-group">
-                        <label>EMAIL:</label>
-                        <input type="text" id="m-email" readonly>
-                    </div>
-                    <div class="info-group">
-                        <label>CONTACT NO.:</label>
-                        <input type="text" id="m-contact" readonly>
-                    </div>
-                    <div class="info-group">
-                        <label>REQUESTED CERTIFICATE:</label>
-                        <input type="text" id="m-type" readonly>
+                    <div class="input-field">
+                        <label>Last Name*</label>
+                        <input type="text" id="lastName">
+                        <span class="error-note" id="err-lastName">*Last name is required</span>
                     </div>
                 </div>
 
-                <div class="reason-files-row">
-                    <div class="info-group reason-box">
-                        <label>REASON/PURPOSE</label>
-                        <textarea id="m-purpose" readonly></textarea>
+                <div class="form-grid tier-3">
+                    <div class="input-field">
+                        <label>Email Address*</label>
+                        <input type="email" id="email">
+                        <span class="error-note" id="err-email">*Invalid email format</span>
                     </div>
-                    <div class="submitted-files-card">
-                        <label>Submitted Files:</label>
-                        <div class="file-item-link">
-                            <i class="fa-regular fa-image" style="color: #eab308; font-size: 16px;"></i>
-                            <span class="file-text-underline" id="m-filename" onclick="viewSubmittedFile()">freddy.jpg</span>
+                    <div class="input-field">
+                        <label>Password*</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="password">
+                            <i class="fa-regular fa-eye-slash toggle-pass" data-target="password"></i>
                         </div>
+                        <span class="error-note" id="err-password">*Minimum 6 characters</span>
+                    </div>
+                    <div class="input-field">
+                        <label>Confirm Password*</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="confirmPass">
+                            <i class="fa-regular fa-eye-slash toggle-pass" data-target="confirmPass"></i>
+                        </div>
+                        <span class="error-note" id="err-confirmPass">*Passwords do not match</span>
                     </div>
                 </div>
 
-                <div class="status-action-bar" id="statusBarContainer">
-                    <div class="status-info-left">
-                        <span class="status-label-text">Current Status:</span>
-                        <strong id="modal-status-text">PENDING</strong>
-                    </div>
-                    
-                    <div class="status-divider" id="statusDivider"></div>
-
-                    <div class="action-buttons-right" id="modalActionButtons">
-                        <button class="btn-approve-main" onclick="selectStatus('Approved')">APPROVE</button>
-                        <button class="btn-reject-main" onclick="selectStatus('Rejected')">REJECT</button>
+                <div class="form-grid tier-single">
+                    <div class="input-field centered-field">
+                        <label>Admin Code*</label>
+                        <input type="text" id="adminCode">
+                        <span class="error-note" id="err-adminCode">*Valid Admin Code required</span>
                     </div>
                 </div>
 
-                <div class="admin-note-wrapper" id="adminNoteSection">
-                    <div class="admin-note-col">
-                        <label id="adminNoteLabel" class="admin-label-styled">ADMIN NOTE:</label>
-                        <textarea id="adminNote" placeholder="Enter reason or instructions..."></textarea>
-                    </div>
-                    
+                <div class="btn-container">
+                    <button type="submit" class="btn-register">Register</button>
                 </div>
+            </form>
 
-                <button class="update-app-btn" id="updateAppBtn" onclick="validateAndUpdate()">Update Application</button>
-                <p id="errorMessage" style="color:#FF4F4F; text-align:center; font-size:12px; font-weight:800; margin-top:10px; display:none;">Error message here</p>
-            </div>
+            <div class="separator"></div>
+            <p class="footer-link">Already have an account? <a href="login.html" class="link-underline">Login here</a></p>
+        </main>
 
-            <div id="modalSuccess" style="display:none;" class="success-screen-center">
-                <div class="check-icon-3d">
-                    <i class="fa-solid fa-check"></i>
-                </div>
-                <h2 class="success-title-text">Update Successful!</h2>
-                <p class="success-sub-text">Record has been updated successfully.</p>
-                <button class="update-app-btn" style="margin-top: 10px;" onclick="location.reload()">Return to Applicants</button>
-            </div>
-        </div>
+        <main class="success-card" id="successCard" style="display: none;">
+            <div class="success-check">✔</div>
+            <h2>Account created successfully!</h2>
+            <p>You can now log in using your authorized administrator account.</p>
+            <a href="login.html" class="btn-back-login">Back to Login</a>
+        </main>
     </div>
 
-    <div class="modal-overlay" id="logoutModalOverlay">
-        <div class="modal-card logout-card">
-            <div class="logout-icon-header">🚪</div>
-            <h2 class="logout-title">Confirm Logout</h2>
-            <p class="logout-description">Are you sure you want to log out of the Admin Dashboard?</p>
-            <div class="logout-footer-btns">
-                <button class="btn-logout-cancel" onclick="closeLogoutModal()">CANCEL</button>
-                <button class="btn-logout-confirm" onclick="window.location.href='login.html'">YES, LOG OUT</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="../../static/js/pending.js"></script>
+    <script src="../../static/js/register.js"></script>
 </body>
 </html>
