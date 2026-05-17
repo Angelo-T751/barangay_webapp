@@ -30,6 +30,10 @@ class PayMongoService:
 
         url = f"{self.base_url}/checkout_sessions"
         
+        # --- PASTE YOUR WEBHOOK.SITE LINK HERE ---
+        # Put your unique Webhook.site URL below to intercept PayMongo's landing data
+        webhook_tester_url = "https://webhook.site/YOUR-UNIQUE-ID-HERE"
+        
         payload = {
             "data": {
                 "attributes": {
@@ -46,8 +50,10 @@ class PayMongoService:
                         }
                     ],
                     "reference_number": application.tracking_code,
-                    "success_url": "https://yourdomain.com/payment/success", 
-                    "cancel_url": "https://yourdomain.com/payment/cancel"
+                    
+                    # SHORTCUT: Forcing the successful user landing spot straight to Webhook.site
+                    "success_url": webhook_tester_url, 
+                    "cancel_url": webhook_tester_url
                 }
             }
         }
