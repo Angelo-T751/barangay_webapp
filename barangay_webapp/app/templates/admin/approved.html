@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Approved Applications - Barangay AINS</title>
     <link rel="stylesheet" href="../../static/css/approved.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.accloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body class="fade-in">
@@ -17,8 +17,8 @@
             <h2 class="brand-text">Barangay AINS</h2>
         </div>
         <nav class="nav-links">
-            <a href="../../templates/admin/dashboard.html" class="nav-btn">Dashboard</a>
-            <a href="../../templates/admin/pending.html" class="nav-btn active">Applications</a>
+            <a href="{{ url_for('admin.dashboard') }}" class="nav-btn">Dashboard</a>
+            <a href="{{ url_for('admin.pending') }}" class="nav-btn active">Applications</a>
             <a href="#" class="nav-btn" onclick="openLogoutModal()">Logout</a>
         </nav>
     </header>
@@ -33,9 +33,9 @@
                 </div>
                 
                 <div class="filter-tabs">
-                    <a href="../../templates/admin/pending.html" class="filter-btn pending">PENDING</a>
-                    <a href="../../templates/admin/approved.html" class="filter-btn approved active">APPROVED</a>
-                    <a href="../../templates/admin/rejected.html" class="filter-btn rejected">REJECTED</a>
+                    <a href="{{ url_for('admin.pending') }}" class="filter-btn pending">PENDING</a>
+                    <a href="{{ url_for('admin.approved') }}" class="filter-btn approved active">APPROVED</a>
+                    <a href="{{ url_for('admin.rejected') }}" class="filter-btn rejected">REJECTED</a>
                 </div>
             </div>
 

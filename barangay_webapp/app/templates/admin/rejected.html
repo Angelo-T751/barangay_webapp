@@ -17,8 +17,8 @@
             <h2 class="brand-text">Barangay AINS</h2>
         </div>
         <nav class="nav-links">
-            <a href="../../templates/admin/dashboard.html" class="nav-btn">Dashboard</a>
-            <a href="../../templates/admin/pending.html" class="nav-btn active">Applications</a>
+            <a href="{{ url_for('admin.dashboard') }}" class="nav-btn">Dashboard</a>
+            <a href="{{ url_for('admin.pending') }}" class="nav-btn active">Applications</a>
             <a href="#" class="nav-btn" onclick="openLogoutModal()">Logout</a>
         </nav>
     </header>
@@ -33,9 +33,9 @@
                 </div>
                 
                 <div class="filter-tabs">
-                    <a href="../../templates/admin/pending.html" class="filter-btn pending">PENDING</a>
-                    <a href="../../templates/admin/approved.html" class="filter-btn approved">APPROVED</a>
-                    <a href="../../templates/admin/rejected.html" class="filter-btn rejected active">REJECTED</a>
+                    <a href="{{ url_for('admin.pending') }}" class="filter-btn pending">PENDING</a>
+                    <a href="{{ url_for('admin.approved') }}" class="filter-btn approved">APPROVED</a>
+                    <a href="{{ url_for('admin.rejected') }}" class="filter-btn rejected active">REJECTED</a>
                 </div>
             </div>
 

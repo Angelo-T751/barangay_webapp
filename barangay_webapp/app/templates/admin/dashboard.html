@@ -17,8 +17,8 @@
             <span class="brand-text" style="font-weight: 800; font-size: 1.3rem;">Barangay AINS</span>
         </div>
         <nav class="nav-links">
-            <a href="dashboard.html" class="nav-btn active">Dashboard</a>
-            <a href="../../templates/admin/pending.html" class="nav-btn">Applications</a>
+            <a href="{{ url_for('admin.dashboard') }}" class="nav-btn active">Dashboard</a>
+            <a href="{{ url_for('admin.pending') }}" class="nav-btn">Applications</a>
             <a href="#" class="nav-btn logout" onclick="openLogoutModal(event)">Log Out</a>
         </nav>
     </header>
@@ -31,37 +31,24 @@
         <section class="recent-card" id="recentCard">
             <h2 class="card-title">RECENT APPLICANTS</h2>
             <div class="applicants-list" id="applicantsContainer">
-                
-                <div id="noApplicantsMsg" style="display: none; text-align: center; padding: 50px 20px;">
-                    <div style="font-size: 48px; margin-bottom: 10px;">📭</div>
-                    <h3 style="font-weight: 700; color: #0F2D57; margin-bottom: 5px;">No recent applicants</h3>
-                    <p style="color: #64748B; font-size: 14px; font-weight: 600;">You are all caught up!</p>
-                </div>
-
-                <div class="applicant-row unread" id="row-03" onclick="openModal('03', 'Maria Clara', 'Indigency Certificate')">
-                    <span class="new-indicator"></span>
-                    <span class="app-id">03</span>
-                    <span class="app-name">Maria Clara</span>
-                    <span class="app-type">Indigency Certificate</span>
-                    <span class="status-tag pending" id="status-03">Pending</span>
-                    <span class="app-date">05/08/26</span>
-                </div>
-                <div class="applicant-row unread" id="row-01" onclick="openModal('01', 'Juan Dela Cruz', 'Barangay Clearance')">
-                    <span class="new-indicator"></span>
-                    <span class="app-id">01</span>
-                    <span class="app-name">Juan Dela Cruz</span>
-                    <span class="app-type">Barangay Clearance</span>
-                    <span class="status-tag pending" id="status-01">Pending</span>
-                    <span class="app-date">05/02/26</span>
-                </div>
-                <div class="applicant-row unread" id="row-02" onclick="openModal('02', 'Jean Valjean', 'Business Permit')">
-                    <span class="new-indicator"></span>
-                    <span class="app-id">02</span>
-                    <span class="app-name">Jean Valjean</span>
-                    <span class="app-type">Business Permit</span>
-                    <span class="status-tag pending" id="status-02">Pending</span>
-                    <span class="app-date">05/05/26</span>
-                </div>
+                {% if recent_applicants %}
+                    {% for app in recent_applicants %}
+                        <div class="applicant-row unread" id="row-{{ app.id }}" data-status="{{ app.status }}" onclick="openModal('{{ app.id }}', this.dataset.name, this.dataset.type)" data-name="{{ app.user.first_name }} {{ app.user.last_name }}" data-type="{{ app.certificate_type.type_name }}">
+                            <span class="new-indicator"></span>
+                            <span class="app-id">{{ app.id }}</span>
+                            <span class="app-name">{{ app.user.first_name }} {{ app.user.last_name }}</span>
+                            <span class="app-type">{{ app.certificate_type.type_name }}</span>
+                            <span class="status-tag {{ app.status }}" id="status-{{ app.id }}">{{ app.status.capitalize() }}</span>
+                            <span class="app-date">{{ app.submitted_at.strftime('%m/%d/%y') if app.submitted_at else 'N/A' }}</span>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div id="noApplicantsMsg" style="text-align: center; padding: 50px 20px;">
+                        <div style="font-size: 48px; margin-bottom: 10px;">📭</div>
+                        <h3 style="font-weight: 700; color: #0F2D57; margin-bottom: 5px;">No recent applicants</h3>
+                        <p style="color: #64748B; font-size: 14px; font-weight: 600;">You are all caught up!</p>
+                    </div>
+                {% endif %}
             </div>
         </section>
 
@@ -73,26 +60,26 @@
                         <div class="chart-overlay-text">
                             <p>TOTAL :</p>
                             <hr class="chart-line">
-                            <span class="total-num" id="totalNum">3</span>
+                            <span class="total-num" id="totalNum">{{ pending_count + approved_count + rejected_count }}</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="status-stack-compact">
-                    <div class="stat-box-mini pending-box" onclick="window.location.href='pending.html'">
+                    <div class="stat-box-mini pending-box" onclick="window.location.href='{{ url_for('admin.pending') }}'">
                         <p>PENDING</p>
                         <hr class="stat-hr">
-                        <span id="stat-pending">3</span>
+                        <span id="stat-pending">{{ pending_count }}</span>
                     </div>
-                    <div class="stat-box-mini approved-box" onclick="window.location.href='approved.html'">
+                    <div class="stat-box-mini approved-box" onclick="window.location.href='{{ url_for('admin.approved') }}'">
                         <p>APPROVED</p>
                         <hr class="stat-hr">
-                        <span id="stat-approved">0</span>
+                        <span id="stat-approved">{{ approved_count }}</span>
                     </div>
-                    <div class="stat-box-mini rejected-box" onclick="window.location.href='rejected.html'">
+                    <div class="stat-box-mini rejected-box" onclick="window.location.href='{{ url_for('admin.rejected') }}'">
                         <p>REJECTED</p>
                         <hr class="stat-hr">
-                        <span id="stat-rejected">0</span>
+                        <span id="stat-rejected">{{ rejected_count }}</span>
                     </div>
                 </div>
             </div>
@@ -178,6 +165,13 @@
     </div>
 
     
+    <script>
+        window.adminDashboardData = {
+            pendingCount: {{ pending_count }},
+            approvedCount: {{ approved_count }},
+            rejectedCount: {{ rejected_count }}
+        };
+    </script>
     <script src="../../static/js/dashboard.js"></script>
 </body>
 </html>
