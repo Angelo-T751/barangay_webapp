@@ -30,9 +30,11 @@ class PayMongoService:
 
         url = f"{self.base_url}/checkout_sessions"
         
-        # --- PASTE YOUR WEBHOOK.SITE LINK HERE ---
-        # Put your unique Webhook.site URL below to intercept PayMongo's landing data
-        webhook_tester_url = "https://webhook.site/YOUR-UNIQUE-ID-HERE"
+        # Build redirect URLs for user to return to website after payment
+        # Use BASE_URL from config (set to ngrok URL for localhost testing)
+        base_url = current_app.config.get('BASE_URL', 'https://reusable-bulgur-steadily.ngrok-free.dev')
+        success_url = f"{base_url}/payment/success?session_id={{CHECKOUT_SESSION_ID}}"
+        cancel_url = f"{base_url}/payment/cancel"
         
         payload = {
             "data": {
@@ -51,9 +53,9 @@ class PayMongoService:
                     ],
                     "reference_number": application.tracking_code,
                     
-                    # SHORTCUT: Forcing the successful user landing spot straight to Webhook.site
-                    "success_url": webhook_tester_url, 
-                    "cancel_url": webhook_tester_url
+                    # Redirect user back to website after payment
+                    "success_url": success_url,
+                    "cancel_url": cancel_url
                 }
             }
         }
